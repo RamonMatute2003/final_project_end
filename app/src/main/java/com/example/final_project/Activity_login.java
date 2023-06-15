@@ -20,7 +20,7 @@ public class Activity_login extends AppCompatActivity {
         txt_email=(EditText) findViewById(R.id.txt_email);
         txt_password=(EditText) findViewById(R.id.txt_password);
         btn_login=(Button) findViewById(R.id.btn_login);
-        btn_sign_in=(Button) findViewById(R.id.btn_sign_in);
+        //btn_sign_in=(Button) findViewById(R.id.btn_sign_in);
 
         if(txt_email.getText().toString().isEmpty() || txt_password.getText().toString().isEmpty()){
             Toast.makeText(getApplicationContext(), "No dejar campos vacios", Toast.LENGTH_LONG).show();
