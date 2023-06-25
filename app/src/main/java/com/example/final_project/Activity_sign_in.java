@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class Activity_login extends AppCompatActivity {
+public class Activity_sign_in extends AppCompatActivity {
 
     EditText txt_email, txt_password;//email=correo, password=contraseña
     Button btn_sign_in, btn_login;//sign_in=registrarse, login=iniciar sesion
@@ -15,7 +15,7 @@ public class Activity_login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_sign_in);
 
         txt_email=(EditText) findViewById(R.id.txt_email);
         txt_password=(EditText) findViewById(R.id.txt_password);

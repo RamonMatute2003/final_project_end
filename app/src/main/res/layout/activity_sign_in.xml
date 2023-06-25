@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_login"
-    tools:context=".Activity_login">
+    android:background="@drawable/background_main"
+    tools:context=".Activity_sign_in">
 
     <TextView
         android:id="@+id/textView4"
@@ -43,7 +43,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-
     <EditText
         android:id="@+id/txt_password"
         android:layout_width="match_parent"
@@ -51,13 +50,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
+        android:background="@drawable/border_radius_background"
         android:ems="10"
         android:hint="Ingrese su contraseña"
-        android:textColorHint="#858585"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:background="@drawable/border_radius_background"
         android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColorHint="#858585"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_email" />
@@ -69,12 +68,14 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/blue"
         android:text="@string/btn_login"
         android:textColor="@color/white"
+        android:background="@drawable/background_buttons"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_password" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_password"
+        />
 
     <TextView
         android:id="@+id/textView6"
