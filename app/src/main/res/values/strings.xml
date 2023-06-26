@@ -2,6 +2,6 @@
     <string name="app_name">final_project</string>
     <string name="email">Correo electronico</string>
     <string name="password">Contraseña</string>
-    <string name="btn_sign_in">Registrarse</string>
-    <string name="btn_login">Iniciar Sesion</string>
+    <string name="btn_sign_up">Registrarse</string>
+    <string name="btn_sign_in">Iniciar Sesion</string>
 </resources>

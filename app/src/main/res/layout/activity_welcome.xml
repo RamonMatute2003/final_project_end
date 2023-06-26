@@ -7,4 +7,23 @@
     android:background="@drawable/background_welcome"
     tools:context=".Activity_welcome">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="413dp"
+        android:layout_height="328dp"
+        app:srcCompat="@drawable/phone_welcome"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="264dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bienvenidos a UI-Transfer files"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
