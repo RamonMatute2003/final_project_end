@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class Activity_main extends AppCompatActivity {
-    BottomNavigationView button_nav;
+    BottomNavigationView button_nav;//boton de navegar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
