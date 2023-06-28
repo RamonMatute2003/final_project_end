@@ -23,7 +23,8 @@
                 android:layout_height="200dp"
                 android:background="@drawable/background_message"
                 android:gravity="center"
-                android:text="Welcome to UI-Transfer files"
+                android:text="Welcome to
+                UI-Transfer files"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="34sp" />
