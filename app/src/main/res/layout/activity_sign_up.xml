@@ -8,10 +8,10 @@
     tools:context=".Activity_sign_up">
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -61,9 +61,9 @@
                 android:layout_marginRight="32dp"
                 android:background="@drawable/border_radius_background"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="@string/email"
-                android:textAlignment="center"/>
+                android:inputType="text"
+                android:textAlignment="center" />
 
             <EditText
                 android:id="@+id/txt_password1"
@@ -74,13 +74,20 @@
                 android:layout_marginRight="32dp"
                 android:background="@drawable/border_radius_background"
                 android:ems="10"
-                android:inputType="text"
                 android:hint="@string/password"
-                android:textAlignment="center"
-                />
+                android:inputType="text"
+                android:textAlignment="center" />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/border_radius_background" />
 
             <EditText
-                android:id="@+id/birthdate"
+                android:id="@+id/birthdate2"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="32dp"
@@ -92,6 +99,32 @@
                 android:inputType="datetime|date"
                 android:textAlignment="center" />
 
+            <EditText
+                android:id="@+id/birthdate3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/border_radius_background"
+                android:ems="10"
+                android:hint="Telefono"
+                android:inputType="datetime|date"
+                android:textAlignment="center" />
+
+            <EditText
+                android:id="@+id/birthdate5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/border_radius_background"
+                android:ems="10"
+                android:hint="DNI"
+                android:inputType="datetime|date"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/btn_sign_up3"
                 android:layout_width="match_parent"
@@ -99,12 +132,11 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="100dp"
+                android:background="@drawable/background_buttons"
                 android:text="@string/btn_sign_up"
                 android:textColor="@color/white"
-                android:background="@drawable/background_buttons"
                 android:textSize="20sp"
-                app:backgroundTint="@null"
-                />
+                app:backgroundTint="@null" />
 
             <View
                 android:id="@+id/divider3"
@@ -117,17 +149,16 @@
                 android:id="@+id/link_have_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="32dp"
                 android:fontFamily="sans-serif"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="italic"
-                android:typeface="serif"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="32dp"
-                />
+                android:typeface="serif" />
 
             <Button
                 android:id="@+id/btn_sign_in3"
