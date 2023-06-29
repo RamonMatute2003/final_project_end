@@ -3,7 +3,8 @@
     <item
         android:id="@+id/itemGroups"
         android:icon="@drawable/item_groups"
-        android:title="grupos"/>
+        android:title="grupos"
+        />
     <item
         android:id="@+id/itemContacts"
         android:icon="@drawable/item_contacts"

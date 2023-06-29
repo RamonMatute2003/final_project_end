@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="32dp"
                 android:background="@drawable/border_radius_background"
-                android:drawableLeft="@drawable/user_symbol"
+                android:drawableLeft="@drawable/user_symbol2"
                 android:ems="10"
                 android:hint="Ingrese su numero de cuenta"
                 android:inputType="text|textEmailAddress"

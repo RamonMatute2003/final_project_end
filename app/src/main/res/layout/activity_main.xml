@@ -21,7 +21,11 @@
         android:id="@+id/buttonNavigationContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/background_title"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/button_nav" />
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/button_nav"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

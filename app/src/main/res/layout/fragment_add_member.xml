@@ -8,6 +8,24 @@
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_add_member">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Añadir miembros"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="34sp" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/search_symbol"
+        android:drawableRight="@drawable/cancel_symbol"
+        android:ems="10"
+        android:inputType="text" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="682dp">
@@ -16,24 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Añadir miembros"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="34sp" />
-
-            <EditText
-                android:id="@+id/editTextText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/search_symbol"
-                android:drawableRight="@drawable/cancel_symbol"
-                android:ems="10"
-                android:inputType="text" />
 
             <ListView
                 android:layout_width="match_parent"
