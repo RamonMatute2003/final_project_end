@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.final_project.Settings.Urderlined;
+
 public class Activity_sign_up extends AppCompatActivity {
     private Button btn_sign_up, btn_sign_in;
 
@@ -16,7 +18,7 @@ public class Activity_sign_up extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         TextView link_have_account=findViewById(R.id.link_have_account);
-        Activity_sign_in activity_sign_in=new Activity_sign_in();
+        Urderlined urderlined=new Urderlined();//urderline=subrayado
         btn_sign_up=(Button) findViewById(R.id.btn_sign_up3);
         btn_sign_in=(Button) findViewById(R.id.btn_sign_in3);
 
@@ -36,6 +38,6 @@ public class Activity_sign_up extends AppCompatActivity {
             }
         });
 
-        activity_sign_in.aesthetics_textView(link_have_account, "¿Ya tienes una cuenta?");
+        urderlined.aesthetics_textView(link_have_account, "¿Ya tienes una cuenta?");
     }
 }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.final_project.Settings.Urderlined;
+
 public class Activity_verification extends AppCompatActivity {
 
     @Override
@@ -13,7 +15,7 @@ public class Activity_verification extends AppCompatActivity {
         setContentView(R.layout.activity_verification);
 
         TextView text_view=findViewById(R.id.link_resend_code);
-        Activity_sign_in activity_sign_in=new Activity_sign_in();
-        activity_sign_in.aesthetics_textView(text_view, "Volver a enviar codigo");
+        Urderlined urderlined=new Urderlined();//urderline=subrayado
+        urderlined.aesthetics_textView(text_view, "Volver a enviar codigo");
     }
 }

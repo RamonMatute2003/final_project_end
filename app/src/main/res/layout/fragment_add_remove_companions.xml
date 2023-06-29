@@ -7,16 +7,14 @@
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_add_remove_companions">
 
-    <ListView
+    <Spinner
+        android:id="@+id/spinner3"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="32dp"
-        android:background="@drawable/border_radius_background"
-        >
-
-    </ListView>
+        android:background="@drawable/border_radius_background" />
 
     <EditText
         android:id="@+id/editTextText5"

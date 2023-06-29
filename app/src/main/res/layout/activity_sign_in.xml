@@ -47,7 +47,7 @@
                 android:drawableLeft="@drawable/user_symbol2"
                 android:ems="10"
                 android:hint="Ingrese su numero de cuenta"
-                android:inputType="text|textEmailAddress"
+                android:inputType="number|numberSigned"
                 android:padding="10dp"
                 android:textAlignment="center"
                 android:textColorHint="#858585"

@@ -33,31 +33,22 @@ public class Activity_main extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                /*if(item.getItemId() == R.id.itemHome){
-                    fragment = new Fragment_home();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Item Selccionado: " + item.getItemId(), Toast.LENGTH_LONG).show();
-                    fragment = new Fragment_home();
-                }
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
-                item.setChecked(true);
-                return false;*/
 
                 if(item.getItemId() == R.id.itemHome){
-                    fragment = new Fragment_home();
+                    fragment=new Fragment_home();
                 }else{
                     if(item.getItemId()==R.id.itemGroups){
-                        fragment = new Fragment_groups();
+                        fragment=new Fragment_groups();
                     }else{
                         if(item.getItemId()==R.id.itemContacts){
-                            fragment = new Fragment_add_remove_companions();
+                            fragment=new Fragment_add_remove_companions();
                         }else{
                             if(item.getItemId()==R.id.itemSettings){
-                                fragment = new Fragment_settings_profile();
+                                fragment=new Fragment_settings_profile();
                             }else{
                                 if(item.getItemId()==R.id.itemExitToApp){
                                     Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
+                                    startActivity(welcome);
                                 }
                             }
                         }

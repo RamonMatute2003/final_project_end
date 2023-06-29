@@ -13,10 +13,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.final_project.Settings.Urderlined;
+
 
 public class Activity_sign_in extends AppCompatActivity {
 
-    private EditText txt_email, txt_password;//email=correo, password=contraseña
+    private EditText txt_account_number, txt_password;//txt_account_number=numero de cuenta, password=contraseña
     private Button btn_sign_in, btn_sign_up;//btn_sign_up=registrarse, btn_sign_in=iniciar sesion
 
     @Override
@@ -24,15 +26,17 @@ public class Activity_sign_in extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        txt_email=(EditText) findViewById(R.id.txt_account_number);
+        txt_account_number=(EditText) findViewById(R.id.txt_account_number);
         txt_password=(EditText) findViewById(R.id.txt_password);
         btn_sign_in=(Button) findViewById(R.id.btn_sign_in2);
         btn_sign_up=(Button) findViewById(R.id.btn_sign_up2);
-        TextView text_view1 = (TextView) findViewById(R.id.link_recover_password);
-        TextView text_view2 = (TextView) findViewById(R.id.link_create_account);
+        TextView text_view1=(TextView) findViewById(R.id.link_recover_password);
+        TextView text_view2=(TextView) findViewById(R.id.link_create_account);
 
-        aesthetics_textView(text_view1, "¿Se te olvido la contraseña?");
-        aesthetics_textView(text_view2, "¿No tienes una cuenta?");
+        Urderlined urderlined=new Urderlined();//urderline=subrayado
+
+        urderlined.aesthetics_textView(text_view1, "¿Se te olvido la contraseña?");
+        urderlined.aesthetics_textView(text_view2, "¿No tienes una cuenta?");
 
         btn_sign_in.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,11 +53,13 @@ public class Activity_sign_in extends AppCompatActivity {
                 startActivity(new_window);
             }
         });
-    }
 
-    public void aesthetics_textView(TextView text_view, String text){//aesthetics_textView=estetica de textView
-        SpannableString mitextoU = new SpannableString(text);
-        mitextoU.setSpan(new UnderlineSpan(), 0, mitextoU.length(), 0);
-        text_view.setText(mitextoU);
+        text_view1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent new_window=new Intent(getApplicationContext(), Activity_recover_account.class);
+                startActivity(new_window);
+            }
+        });
     }
 }

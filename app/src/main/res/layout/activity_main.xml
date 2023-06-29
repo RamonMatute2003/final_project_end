@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/frameContainer"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonNavigationContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
