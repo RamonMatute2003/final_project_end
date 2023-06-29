@@ -4,11 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.final_project.Fragment.Fragment_add_remove_companions;
+import com.example.final_project.Fragment.Fragment_groups;
 import com.example.final_project.Fragment.Fragment_home;
+import com.example.final_project.Fragment.Fragment_settings_profile;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -29,11 +33,35 @@ public class Activity_main extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
-                if(item.getItemId() == R.id.itemHome){
+                /*if(item.getItemId() == R.id.itemHome){
                     fragment = new Fragment_home();
                 }else{
                     Toast.makeText(getApplicationContext(), "Item Selccionado: " + item.getItemId(), Toast.LENGTH_LONG).show();
                     fragment = new Fragment_home();
+                }
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+                item.setChecked(true);
+                return false;*/
+
+                if(item.getItemId() == R.id.itemHome){
+                    fragment = new Fragment_home();
+                }else{
+                    if(item.getItemId()==R.id.itemGroups){
+                        fragment = new Fragment_groups();
+                    }else{
+                        if(item.getItemId()==R.id.itemContacts){
+                            fragment = new Fragment_add_remove_companions();
+                        }else{
+                            if(item.getItemId()==R.id.itemSettings){
+                                fragment = new Fragment_settings_profile();
+                            }else{
+                                if(item.getItemId()==R.id.itemExitToApp){
+                                    Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
+                                }
+                            }
+                        }
+                    }
                 }
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
