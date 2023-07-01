@@ -1,8 +1,29 @@
 package com.example.final_project.Settings;
 
+import java.util.Date;
+
 public class Data{
 
-    private static String email, password, career, name, birth_date, phone, dni;//email=correo, password=contraseña, career=carrera, name=nombre, birth_date=fecha de nacimiento, phone=telefono
+    private static String email, password, career, name, phone, dni, account, birth_date;//birth_date=fecha de nacimiento, phone=telefono,email=correo, password=contraseña, career=carrera, name=nombre, account=cuenta
+    private static Integer id_career;
+
+    public Data(String email, String password, String career, String name, String phone, String dni, String birth_date){
+        this.email=email;
+        this.password=password;
+        this.career=career;
+        this.name=name;
+        this.phone=phone;
+        this.dni=dni;
+        this.birth_date=birth_date;
+    }
+
+    public static Integer getId_career() {
+        return id_career;
+    }
+
+    public static void setId_career(Integer id_career) {
+        Data.id_career = id_career;
+    }
 
     public static String getEmail() {
         return email;
@@ -36,14 +57,6 @@ public class Data{
         Data.name = name;
     }
 
-    public static String getBirth_date() {
-        return birth_date;
-    }
-
-    public static void setBirth_date(String birth_date) {
-        Data.birth_date = birth_date;
-    }
-
     public static String getPhone() {
         return phone;
     }
@@ -58,5 +71,21 @@ public class Data{
 
     public static void setDni(String dni) {
         Data.dni = dni;
+    }
+
+    public static String getBirth_date() {
+        return birth_date;
+    }
+
+    public static void setBirth_date(String birth_date) {
+        Data.birth_date = birth_date;
+    }
+
+    public static String getAccount() {
+        return account;
+    }
+
+    public static void setAccount(String account) {
+        Data.account = account;
     }
 }
