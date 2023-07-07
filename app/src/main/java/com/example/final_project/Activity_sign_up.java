@@ -48,6 +48,7 @@ public class Activity_sign_up extends AppCompatActivity {
     private TextView txt_name, txt_email, txt_password, txt_phone, txt_dni, birthdate;
     Integer id_career;
     private Spinner career;
+    Message message=new Message();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,66 +85,25 @@ public class Activity_sign_up extends AppCompatActivity {
 
         btn_sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v){
                 if(txt_password.getText().toString().isEmpty() && txt_phone.getText().toString().isEmpty() && txt_name.getText().toString().isEmpty() && txt_dni.getText().toString().isEmpty() && txt_email.getText().toString().isEmpty() && birthdate.getText().toString().isEmpty()){
-                    Message message=new Message();
-                    message.message("No dejar campos vacios","Alerta", Activity_sign_up.this);
+                    message.message("Alerta", "No dejar campos vacios",Activity_sign_up.this);
                 }else{
-                    insert();
+                    Data data=new Data(txt_email.getText().toString(), txt_password.getText().toString(), career.getSelectedItem().toString(),txt_name.getText().toString(), txt_phone.getText().toString(), txt_dni.getText().toString(), birthdate.getText().toString());
+                    String account=generate_account();
+                    Data.setAccount(account);
+                    int index=(career.getSelectedItem().toString()).indexOf("-");
+                    id_career=Integer.parseInt((career.getSelectedItem().toString()).substring(0, index));
+                    Data.setId_career(id_career);
+                    Intent new_window=new Intent(getApplicationContext(), Activity_verification.class);//new_window=nueva ventana
+                    new_window.putExtra("activity",0);
+                    startActivity(new_window);
                 }
             }
         });
 
         urderlined.aesthetics_textView(link_have_account, "¿Ya tienes una cuenta?");
         fill_career();
-    }
-
-    public void insert(){//insert=insertar
-        RequestQueue queue=Volley.newRequestQueue(this);//queue=cola
-        Data data=new Data(txt_email.getText().toString(), txt_password.getText().toString(), career.getSelectedItem().toString(),txt_name.getText().toString(), txt_phone.getText().toString(), txt_dni.getText().toString(), birthdate.getText().toString());
-        String account=generate_account();
-        Data.setAccount(account);
-        int index=(career.getSelectedItem().toString()).indexOf("-");
-        id_career=Integer.parseInt((career.getSelectedItem().toString()).substring(0, index));
-        Data.setId_career(id_career);
-
-        String url=Rest_api.url_mysql+Rest_api.insert_user;
-        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response){
-                        Toast.makeText(getApplicationContext(), "Cuenta creada exitosamente", Toast.LENGTH_LONG).show();
-                        Intent new_window=new Intent(getApplicationContext(), Activity_main.class);//new_window=nueva ventana
-                        startActivity(new_window);
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        String errorMessage = "Error: " + error.getMessage();
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-                        Log.e("Volley Error", errorMessage);
-                    }
-                }) {
-            @NonNull
-            @Override
-            public Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
-                parameters.put("name_user",Data.getName());
-                parameters.put("dni",Data.getDni());
-                parameters.put("birth_date",String.valueOf(Data.getBirth_date()));
-                parameters.put("account",Data.getAccount());
-                parameters.put("password",Data.getPassword());
-                parameters.put("phone",Data.getPhone());
-                parameters.put("email",Data.getEmail());
-                parameters.put("id_career",String.valueOf(Data.getId_career()));
-                /*parameters.put("photo","");*/
-
-                return parameters;
-            }
-        };
-
-        queue.add(request);
     }
 
     private void generate_calendar(){//generate_calendar=generar calendario
@@ -219,14 +179,13 @@ public class Activity_sign_up extends AppCompatActivity {
 
                         }catch(JSONException e){
                             e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "Error:", Toast.LENGTH_LONG).show();
+                            message.message("Error", "Revisa bien: "+e, Activity_sign_up.this);
                         }
                     }
                 },new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_LONG).show();
-                    }
+                        message.message("Error", "Revisa bien: "+error, Activity_sign_up.this);                    }
                 });
 
         queue.add(request);

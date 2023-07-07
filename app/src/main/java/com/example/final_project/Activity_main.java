@@ -34,8 +34,9 @@ public class Activity_main extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Fragment fragment = null;
 
-                if(item.getItemId() == R.id.itemHome){
-                    fragment=new Fragment_home();
+                if(item.getItemId()==R.id.itemExitToApp){
+                    Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
+                    startActivity(welcome);
                 }else{
                     if(item.getItemId()==R.id.itemGroups){
                         fragment=new Fragment_groups();
@@ -46,17 +47,16 @@ public class Activity_main extends AppCompatActivity {
                             if(item.getItemId()==R.id.itemSettings){
                                 fragment=new Fragment_settings_profile();
                             }else{
-                                if(item.getItemId()==R.id.itemExitToApp){
-                                    Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
-                                    startActivity(welcome);
+                                if(item.getItemId() == R.id.itemHome){
+                                    fragment=new Fragment_home();
                                 }
                             }
                         }
                     }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+                    item.setChecked(true);
                 }
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
-                item.setChecked(true);
                 return false;
             }
         });

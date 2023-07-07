@@ -7,66 +7,68 @@
     android:background="@drawable/background_main"
     tools:context=".Activity_recover_account">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/txt_account_recover"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border_radius_background"
+        android:ems="10"
+        android:hint="Numero de cuenta"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <EditText
+        android:id="@+id/txt_new_password"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border_radius_background"
+        android:ems="10"
+        android:hint="Contraseña nueva"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_account_recover" />
 
-            <EditText
-                android:id="@+id/txt_name4"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="32dp"
-                android:background="@drawable/border_radius_background"
-                android:ems="10"
-                android:hint="Contraseña actual"
-                android:inputType="text"
-                android:textAlignment="center" />
+    <EditText
+        android:id="@+id/txt_repeat_new_password"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/border_radius_background"
+        android:ems="10"
+        android:hint="Repetir contraseña nueva"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_new_password" />
 
-            <EditText
-                android:id="@+id/txt_email3"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="32dp"
-                android:background="@drawable/border_radius_background"
-                android:ems="10"
-                android:hint="Contraseña nueva"
-                android:inputType="text"
-                android:textAlignment="center" />
+    <Button
+        android:id="@+id/btn_change_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/background_buttons"
+        android:text="Cambiar contraseña"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_repeat_new_password" />
 
-            <EditText
-                android:id="@+id/txt_password4"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="32dp"
-                android:background="@drawable/border_radius_background"
-                android:ems="10"
-                android:hint="Repetir contraseña nueva"
-                android:inputType="text"
-                android:textAlignment="center" />
-
-            <Button
-                android:id="@+id/btn_sign_up8"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="80dp"
-                android:background="@drawable/background_buttons"
-                android:text="Cambiar contraseña"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:backgroundTint="@null" />
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

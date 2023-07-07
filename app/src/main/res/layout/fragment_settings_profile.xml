@@ -58,7 +58,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/txt_new_password"
+                android:id="@+id/dfg"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="32dp"
@@ -71,7 +71,7 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/txt_repeat_new_password"
+                android:id="@+id/hgfh"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="32dp"
