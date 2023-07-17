@@ -65,10 +65,10 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/link_resend_code2" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_time" />
 
     <TextView
-        android:id="@+id/link_resend_code2"
+        android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"

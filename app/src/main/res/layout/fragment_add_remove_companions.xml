@@ -8,16 +8,17 @@
     tools:context=".Fragment.Fragment_add_remove_companions">
 
     <Spinner
-        android:id="@+id/spinner3"
+        android:id="@+id/sp_options"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="32dp"
-        android:background="@drawable/border_radius_background" />
+        android:background="@drawable/border_radius_background"
+        android:entries="@array/options" />
 
     <EditText
-        android:id="@+id/editTextText5"
+        android:id="@+id/txt_search_users"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search_symbol"
@@ -35,6 +36,7 @@
         android:orientation="vertical">
 
         <ListView
+            android:id="@+id/sp_list_users"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"

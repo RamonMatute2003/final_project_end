@@ -23,7 +23,7 @@ public class Activity_recover_account extends AppCompatActivity {
         txt_account_recover=findViewById(R.id.txt_account_recover);
         txt_new_password=findViewById(R.id.txt_new_password);
         txt_repeat_new_password=findViewById(R.id.txt_repeat_new_password);
-        btn_change_password=findViewById(R.id.btn_change_password);
+        btn_change_password=findViewById(R.id.btn_save_changes);
 
         btn_change_password.setOnClickListener(new View.OnClickListener() {
             @Override

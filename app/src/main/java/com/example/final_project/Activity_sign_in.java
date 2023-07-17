@@ -105,6 +105,7 @@ public class Activity_sign_in extends AppCompatActivity {
 
                                 Data.setId_career(user_object.getInt("id_career"));
                                 Data.setAccount(user_object.getString("account"));
+                                Data.setId_user(user_object.getInt("id_user"));
                                 Intent new_window=new Intent(getApplicationContext(), Activity_main.class);//new_window=nueva ventana
                                 startActivity(new_window);
                             }else{

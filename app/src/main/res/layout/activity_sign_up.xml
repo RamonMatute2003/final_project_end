@@ -93,7 +93,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/birthdate"
+                    android:id="@+id/birthdate1"
                     android:layout_width="269dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="32dp"
@@ -106,7 +106,7 @@
                     android:textAlignment="center" />
 
                 <ImageButton
-                    android:id="@+id/btn_calendar"
+                    android:id="@+id/btn_calendar1"
                     android:layout_width="71dp"
                     android:layout_height="wrap_content"
                     app:srcCompat="@android:drawable/ic_menu_my_calendar"

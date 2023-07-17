@@ -1,12 +1,10 @@
 package com.example.final_project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,9 +12,7 @@ import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,14 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Random;
 
 public class Activity_sign_up extends AppCompatActivity {
@@ -64,9 +53,9 @@ public class Activity_sign_up extends AppCompatActivity {
         txt_name=findViewById(R.id.txt_name);
         txt_password=findViewById(R.id.txt_password1);
         txt_phone=findViewById(R.id.txt_phone);
-        birthdate=findViewById(R.id.birthdate);
+        birthdate=findViewById(R.id.birthdate1);
         career=findViewById(R.id.career);
-        btn_calendar=findViewById(R.id.btn_calendar);
+        btn_calendar=findViewById(R.id.btn_calendar1);
 
         btn_calendar.setOnClickListener(new View.OnClickListener() {
             @Override

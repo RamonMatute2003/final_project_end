@@ -62,5 +62,7 @@ public class Fragment_add_member extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_member, container, false);
+
+
     }
 }

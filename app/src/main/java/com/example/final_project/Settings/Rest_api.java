@@ -8,5 +8,7 @@ public class Rest_api {
     public static final String send_mail="send_mail.php";
     public static final String update_password="update_password.php";
     public static final String select_recover="select_recover.php";
+    public static final String select_id_user="select_id_user.php";
+    public static final String update_data="update_data.php";
 
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Data{
 
     private static String email, password, career, name, phone, dni, account, birth_date;//birth_date=fecha de nacimiento, phone=telefono,email=correo, password=contraseña, career=carrera, name=nombre, account=cuenta
-    private static Integer id_career;
+    private static Integer id_career, id_user;
 
     public Data(String email, String password, String career, String name, String phone, String dni, String birth_date){
         this.email=email;
@@ -17,6 +17,14 @@ public class Data{
         this.birth_date=birth_date;
     }
 
+    public static Integer getId_user(){
+        return id_user;
+    }
+
+    public static void setId_user(Integer id_user) {
+        Data.id_user = id_user;
+    }
+
     public static Integer getId_career() {
         return id_career;
     }
@@ -25,7 +33,7 @@ public class Data{
         Data.id_career = id_career;
     }
 
-    public static String getEmail() {
+    public static String getEmail(){
         return email;
     }
 

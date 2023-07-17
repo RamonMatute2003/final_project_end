@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_new_password" />
 
     <Button
-        android:id="@+id/btn_change_password"
+        android:id="@+id/btn_save_changes"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
