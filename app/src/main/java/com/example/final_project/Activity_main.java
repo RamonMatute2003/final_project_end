@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.example.final_project.Fragment.Fragment_add_remove_companions;
 import com.example.final_project.Fragment.Fragment_groups;
 import com.example.final_project.Fragment.Fragment_home;
 import com.example.final_project.Fragment.Fragment_settings_profile;
+import com.example.final_project.Fragment.Fragment_view_profile;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
@@ -45,6 +47,8 @@ public class Activity_main extends AppCompatActivity {
 
         Intent received_intent=getIntent();
 
+        select_id_user();
+
         if(received_intent.hasExtra("update")){
             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, new Fragment_settings_profile()).commit();
             button_nav.setSelectedItemId(R.id.itemSettings);
@@ -56,11 +60,24 @@ public class Activity_main extends AppCompatActivity {
                 if(received_intent.hasExtra("sett_prof")){
                     getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, new Fragment_settings_profile()).commit();
                     button_nav.setSelectedItemId(R.id.itemSettings);
+                }else{
+                    if(received_intent.hasExtra("view")){
+                        button_nav.setSelectedItemId(R.id.itemContacts);
+                        Fragment_view_profile fragment = new Fragment_view_profile();
+
+                        if(received_intent.hasExtra("status")){
+                            Bundle args=new Bundle();
+                            args.putInt("id_user",Integer.parseInt((getIntent().getExtras()).getString("view")));
+                            Log.e("a0",(getIntent().getExtras()).getString("status"));
+                            args.putInt("status",Integer.parseInt((getIntent().getExtras()).getString("status")));
+                            fragment.setArguments(args);
+                        }
+
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+                    }
                 }
             }
         }
-
-        select_id_user();
 
         button_nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
@@ -105,7 +122,7 @@ public class Activity_main extends AppCompatActivity {
         });
     }
 
-    private void select_id_user() {
+    private void select_id_user(){
         String url= Rest_api.url_mysql+Rest_api.select_id_user+"?account="+ Data.getAccount();
         RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
 

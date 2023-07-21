@@ -189,8 +189,7 @@ public class Fragment_settings_profile extends Fragment {
         dialog.show();
     }
 
-    private void
-    show_security(String button) {
+    private void show_security(String button) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Ingresa tu contraseña actual");
 
