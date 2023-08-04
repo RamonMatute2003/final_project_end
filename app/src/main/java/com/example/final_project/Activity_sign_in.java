@@ -1,19 +1,18 @@
 package com.example.final_project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,6 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Activity_sign_in extends AppCompatActivity {
 
@@ -41,9 +43,9 @@ public class Activity_sign_in extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        txt_account_number=(EditText) findViewById(R.id.txt_account_number);
+        txt_account_number=(EditText) findViewById(R.id.txt_name_group);
         txt_password=(EditText) findViewById(R.id.txt_password);
-        btn_sign_in=(Button) findViewById(R.id.btn_sign_in2);
+        btn_sign_in=(Button) findViewById(R.id.btn_create_group);
         btn_sign_up=(Button) findViewById(R.id.btn_sign_up2);
         TextView text_view1=(TextView) findViewById(R.id.link_recover_password);
         TextView text_view2=(TextView) findViewById(R.id.link_create_account);
@@ -106,6 +108,12 @@ public class Activity_sign_in extends AppCompatActivity {
                                 Data.setId_career(user_object.getInt("id_career"));
                                 Data.setAccount(user_object.getString("account"));
                                 Data.setId_user(user_object.getInt("id_user"));
+                                Data.setPhoto(user_object.getString("photo"));
+
+                                if(!Activity_welcome.token.equals(user_object.getString("token"))){
+                                    update_token(user_object.getString("id_user"));
+                                }
+
                                 Intent new_window=new Intent(getApplicationContext(), Activity_main.class);//new_window=nueva ventana
                                 startActivity(new_window);
                             }else{
@@ -117,12 +125,45 @@ public class Activity_sign_in extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Error:"+e, Toast.LENGTH_LONG).show();
                         }
                     }
-                },new Response.ErrorListener() {
+                },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), "Error: " + error, Toast.LENGTH_LONG).show();
             }
         });
+
+        queue.add(request);
+    }
+
+    private void update_token(String id_user){
+        RequestQueue queue= Volley.newRequestQueue(this);//queue=cola
+
+        String url= Rest_api.url_mysql+Rest_api.update_token;
+        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "Error: " + error.getMessage();
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("Volley Error", errorMessage);
+                    }
+                }) {
+            @NonNull
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
+                parameters.put("token", Activity_welcome.token);
+                parameters.put("id_user", id_user);
+
+                return parameters;
+            }
+        };
 
         queue.add(request);
     }

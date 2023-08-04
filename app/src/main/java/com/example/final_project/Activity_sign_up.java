@@ -1,14 +1,18 @@
 package com.example.final_project;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -84,6 +88,7 @@ public class Activity_sign_up extends AppCompatActivity {
                     int index=(career.getSelectedItem().toString()).indexOf("-");
                     id_career=Integer.parseInt((career.getSelectedItem().toString()).substring(0, index));
                     Data.setId_career(id_career);
+                    Data.setPhoto("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Profile_pictures%2Fsin_foto.jpg?alt=media&token=87e00569-a4d5-41be-adcb-7e1a443ce40f");
                     Intent new_window=new Intent(getApplicationContext(), Activity_verification.class);//new_window=nueva ventana
                     new_window.putExtra("activity",0);
                     startActivity(new_window);

@@ -1,13 +1,22 @@
 package com.example.final_project.Fragment;
 
+import static android.app.Activity.RESULT_OK;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,27 +32,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.final_project.Activity_main;
-import com.example.final_project.Activity_recover_account;
-import com.example.final_project.Activity_sign_in;
-import com.example.final_project.Activity_sign_up;
 import com.example.final_project.Activity_verification;
+import com.example.final_project.Models.Firebase;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -102,28 +119,32 @@ public class Fragment_settings_profile extends Fragment {
     ImageButton btn_calendar1;
     Message message=new Message();
     Integer position;
+    Firebase firebase=new Firebase();
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_FROM_GALLERY = 2;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root=inflater.inflate(R.layout.fragment_settings_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_settings_profile, container, false);
 
-        txt_name1=root.findViewById(R.id.txt_name1);
-        txt_account1=root.findViewById(R.id.txt_account1);
-        txt_email2=root.findViewById(R.id.txt_email2);
-        sp_careers2=root.findViewById(R.id.sp_careers2);
-        birthdate1=root.findViewById(R.id.birthdate1);
-        txt_phone1=root.findViewById(R.id.txt_phone1);
-        txt_dni1=root.findViewById(R.id.txt_dni1);
-        imageView5=root.findViewById(R.id.imageView5);
-        btn_delete_photo=root.findViewById(R.id.btn_delete_photo);
-        btn_edit_photo=root.findViewById(R.id.btn_edit_photo);
-        txt_friends=root.findViewById(R.id.txt_friends);
-        btn_edit_friends=root.findViewById(R.id.btn_edit_friends);
-        btn_save_changes=root.findViewById(R.id.btn_save_changes);
-        btn_discard_changes=root.findViewById(R.id.btn_discard_changes);
-        btn_update_password=root.findViewById(R.id.btn_update_password);
-        btn_calendar1=root.findViewById(R.id.btn_calendar1);
+        txt_name1 = root.findViewById(R.id.txt_name1);
+        txt_account1 = root.findViewById(R.id.txt_account1);
+        txt_email2 = root.findViewById(R.id.txt_email2);
+        sp_careers2 = root.findViewById(R.id.sp_careers2);
+        birthdate1 = root.findViewById(R.id.birthdate1);
+        txt_phone1 = root.findViewById(R.id.txt_phone1);
+        txt_dni1 = root.findViewById(R.id.txt_dni1);
+        imageView5 = root.findViewById(R.id.imageView5);
+        btn_delete_photo = root.findViewById(R.id.btn_delete_photo);
+        btn_edit_photo = root.findViewById(R.id.btn_edit_photo);
+        txt_friends = root.findViewById(R.id.txt_friends);
+        btn_edit_friends = root.findViewById(R.id.btn_edit_friends);
+        btn_save_changes = root.findViewById(R.id.btn_save_changes);
+        btn_discard_changes = root.findViewById(R.id.btn_discard_changes);
+        btn_update_password = root.findViewById(R.id.btn_update_password);
+        btn_calendar1 = root.findViewById(R.id.btn_calendar1);
         fill_career();
         fill_data();
 
@@ -158,17 +179,86 @@ public class Fragment_settings_profile extends Fragment {
         btn_edit_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent new_window=new Intent(getContext(), Activity_main.class);
-                new_window.putExtra("add_remove",2);
+                Intent new_window = new Intent(getContext(), Activity_main.class);
+                new_window.putExtra("add_remove", 2);
                 startActivity(new_window);
             }
         });
 
+        btn_edit_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showMenuDialog();
+            }
+        });
+
+        btn_delete_photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                delete_photo();
+            }
+        });
+
+        firebase.get_token("Profile_pictures");
+
         return root;
     }
 
-    private void show_message(){
+    private void showMenuDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Elija una opción");
+        builder.setItems(new CharSequence[]{"Tomar foto", "Elegir de galería"},
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:
+                                if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA)
+                                        != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(getActivity(),
+                                            new String[]{android.Manifest.permission.CAMERA},
+                                            CAMERA_PERMISSION_REQUEST_CODE);
+                                } else {
+                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                    }
+                                }
+                                break;
+                            case 1:
+                                Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_FROM_GALLERY);
+                                break;
+                        }
+                    }
+                });
+        builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                    Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                    uploadImageToFirebase(bitmap, null);
+                    break;
+                case REQUEST_IMAGE_FROM_GALLERY:
+                    Uri selectedImageUri = data.getData();
+                    try {
+                        Bitmap galleryBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                        uploadImageToFirebase(galleryBitmap, null);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+        }
+    }
+
+    private void show_message(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("¿Seguro que deseas descartar los cambios?");
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -190,7 +280,7 @@ public class Fragment_settings_profile extends Fragment {
     }
 
     private void show_security(String button) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Ingresa tu contraseña actual");
 
         final EditText input = new EditText(getContext());
@@ -215,7 +305,6 @@ public class Fragment_settings_profile extends Fragment {
                         new_window.putExtra("email", txt_email2.getText().toString());
                         int index=(sp_careers2.getSelectedItem().toString()).indexOf("-");
                         new_window.putExtra("id_career", (sp_careers2.getSelectedItem().toString()).substring(0, index));
-                        //new_window.putExtra("photo", Data.getEmail());
                         new_window.putExtra("sett_prof",1);
                         startActivity(new_window);
                     }else{
@@ -241,7 +330,7 @@ public class Fragment_settings_profile extends Fragment {
     }
 
     private void update_password(){
-        AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(requireContext());
         builder2.setTitle("Ingresa tu nueva contraseña");
 
         final EditText input2 = new EditText(getContext());
@@ -271,7 +360,7 @@ public class Fragment_settings_profile extends Fragment {
 
     private void fill_career(){//fill_career=llenar carreras
         String url= Rest_api.url_mysql+Rest_api.select_careers;
-        RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
+        RequestQueue queue= Volley.newRequestQueue(requireContext());//queue=cola
 
         StringRequest request=new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>(){
@@ -313,6 +402,7 @@ public class Fragment_settings_profile extends Fragment {
     }
 
     private void fill_data(){
+        Glide.with(this).load(Data.getPhoto()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView5);
         txt_name1.setText(Data.getName());
         txt_account1.setText(Data.getAccount());
         txt_email2.setText(Data.getEmail());
@@ -351,4 +441,94 @@ public class Fragment_settings_profile extends Fragment {
         }, current_year,current_month,current_day);
         dialog.show();
     }
+
+    private void uploadImageToFirebase(Bitmap imageBitmap, Uri imageUri) {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+        StorageReference imageRef = storageRef.child("Profile_pictures/photo_user_"+Data.getId_user()+".jpg");
+
+        if (imageBitmap != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = imageRef.putBytes(data);
+            uploadTask.addOnFailureListener(exception -> {
+               Log.e("error", ""+exception);
+            }).addOnSuccessListener(taskSnapshot -> {
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    update_photo(uri);
+                    Data.setPhoto(String.valueOf(uri));
+                    Glide.with(this).load(Data.getPhoto()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView5);
+                });
+            });
+        } else if (imageUri != null) {
+            UploadTask uploadTask = imageRef.putFile(imageUri);
+            uploadTask.addOnFailureListener(exception -> {
+                Log.e("error", ""+exception);
+            }).addOnSuccessListener(taskSnapshot -> {
+                imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    update_photo(uri);
+                    Data.setPhoto(String.valueOf(uri));
+                    Glide.with(this).load(Data.getPhoto()).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView5);
+                });
+            });
+        }
+    }
+
+    private void update_photo(Uri uri){
+        RequestQueue queue=Volley.newRequestQueue(requireContext());//queue=cola
+
+        String url= Rest_api.url_mysql+Rest_api.update_photo;
+        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        Data.setPhoto(String.valueOf(uri));
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "Error: " + error.getMessage();
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("Volley Error", errorMessage);
+                    }
+                }) {
+            @NonNull
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
+                parameters.put("id_user", String.valueOf(Data.getId_user()));
+                parameters.put("photo", String.valueOf(uri));
+
+                return parameters;
+            }
+        };
+
+        queue.add(request);
+    }
+
+    private void delete_photo(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(requireContext());
+        builder2.setTitle("Deseas borrar tu foto?");
+
+        builder2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog2, int which2) {
+                update_photo(Uri.parse("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Profile_pictures%2Fsin_foto.jpg?alt=media&token=87e00569-a4d5-41be-adcb-7e1a443ce40f"));
+                Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Profile_pictures%2Fsin_foto.jpg?alt=media&token=87e00569-a4d5-41be-adcb-7e1a443ce40f").diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView5);
+            }
+        });
+        builder2.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog2 = builder2.create();
+        dialog2.show();
+    }
+
 }

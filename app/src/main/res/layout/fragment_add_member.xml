@@ -9,7 +9,7 @@
     tools:context=".Fragment.Fragment_add_member">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txt_name_group_conf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Añadir miembros"
@@ -18,7 +18,7 @@
         android:textSize="34sp" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/txt_search_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search_symbol"

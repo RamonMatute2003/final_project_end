@@ -8,17 +8,8 @@
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_create_group">
 
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/search_symbol"
-        android:drawableRight="@drawable/cancel_symbol"
-        android:ems="10"
-        android:inputType="text" />
-
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/txt_name_group_conf"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="30dp"
@@ -28,14 +19,14 @@
         android:textSize="34sp" />
 
     <EditText
-        android:id="@+id/txt_account_number"
+        android:id="@+id/txt_name_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="32dp"
         android:background="@drawable/border_radius_background"
-        android:drawableLeft="@drawable/item_groups2"
+        android:drawableStart="@drawable/item_groups2"
         android:ems="10"
         android:hint="Nombre de grupo"
         android:inputType="text"
@@ -44,9 +35,18 @@
         android:textColorHint="#858585"
         android:textSize="16sp" />
 
+    <EditText
+        android:id="@+id/txt_search_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/search_symbol"
+        android:drawableEnd="@drawable/cancel_symbol"
+        android:ems="10"
+        android:inputType="text" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="300dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,8 +54,14 @@
             android:orientation="vertical">
 
             <ListView
+                android:id="@+id/list_users_group"
                 android:layout_width="match_parent"
-                android:layout_height="565dp" />
+                android:layout_height="281dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="32dp"
+                android:choiceMode="multipleChoice"
+                tools:ignore="NestedScrolling" />
 
 
         </LinearLayout>
@@ -63,11 +69,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="605dp"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_sign_in2"
+            android:id="@+id/btn_create_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="90dp"

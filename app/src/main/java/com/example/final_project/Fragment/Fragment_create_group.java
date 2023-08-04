@@ -1,14 +1,56 @@
 package com.example.final_project.Fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.final_project.Activity_welcome;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.Toast;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.final_project.Activity_main;
+import com.example.final_project.Activity_verification;
 import com.example.final_project.R;
+import com.example.final_project.Settings.Data;
+import com.example.final_project.Settings.Message;
+import com.example.final_project.Settings.Rest_api;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +99,222 @@ public class Fragment_create_group extends Fragment {
         }
     }
 
+    Button btn_create_group;
+    EditText txt_name_group;
+    ListView list_users_group;
+    List<String> user_list2;
+    Message message=new Message();
+    List<String> selected_items=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_group, container, false);
+        View root=inflater.inflate(R.layout.fragment_create_group, container, false);
+
+        btn_create_group=root.findViewById(R.id.btn_create_group);
+        txt_name_group=root.findViewById(R.id.txt_name_group);
+        list_users_group=root.findViewById(R.id.list_users_group);
+        select_companions();
+
+        list_users_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selected_item = (String) parent.getItemAtPosition(position);
+                String id_member = selected_item.substring(0, selected_item.indexOf("-"));
+
+                if(!selected_items.contains(id_member)){
+                    selected_items.add(id_member);
+                    Log.e("e", selected_items.toString());
+                }else{
+                    Iterator<String> iterator=selected_items.iterator();
+                    while(iterator.hasNext()){
+                        String memberId = iterator.next();
+                        if(memberId.equals(id_member)){
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                }
+                Log.e("e", selected_items.toString());
+            }
+        });
+
+        btn_create_group.setOnClickListener(v -> {
+            if(selected_items.toArray().length>0){
+                insert_group();
+            }else{
+                message.message("Alerta", "Selecciona al menos un integrante", getContext());
+            }
+        });
+
+        return root;
+    }
+
+    public void insert_group(){
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+
+        String url=Rest_api.url_mysql+Rest_api.insert_group;
+        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray jsonArray=new JSONArray(response);
+
+                            if(jsonArray.length()>0){
+                                JSONObject user_object=jsonArray.getJSONObject(0);//user_object=objeto usuario
+
+                                for(int j=0; j<selected_items.toArray().length; j++){
+                                    insert_member(user_object.getString("id_group"), selected_items.get(j));
+                                }
+
+                                FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                                Fragment_view_group fragment_view_group=new Fragment_view_group();
+                                fragmentTransaction.replace(R.id.frameContainer, fragment_view_group);
+                                Bundle args=new Bundle();
+                                args.putString("data", user_object.getString("id_group")+"-"+txt_name_group.getText().toString());
+                                fragment_view_group.setArguments(args);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
+                            }
+
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "Error: " + error.getMessage();
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("Volley Error", errorMessage);
+                    }
+                }){
+            @NonNull
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
+                parameters.put("id_amphitryon", String.valueOf(Data.getId_user()));
+                parameters.put("group_name", txt_name_group.getText().toString());
+
+                return parameters;
+            }
+        };
+
+        queue.add(request);
+    }
+
+    public void insert_member(String id, String id_user){
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+
+        String url=Rest_api.url_mysql+Rest_api.insert_member;
+        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response){
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "Error: " + error.getMessage();
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("Volley Error", errorMessage);
+                    }
+                }) {
+            @NonNull
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
+                parameters.put("id_user", id_user);
+                parameters.put("id_group", id);
+
+                return parameters;
+            }
+        };
+
+        queue.add(request);
+    }
+
+    private void select_companions(){
+        String url= Rest_api.url_mysql+Rest_api.select_companions_compare+"?id_user="+Data.getId_user();
+        RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
+
+        StringRequest request2=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray json_users=new JSONArray(response);
+                            user_list2 = new ArrayList<>();
+
+                            for(int j=0; j<json_users.length(); j++){
+                                JSONObject users_object=json_users.getJSONObject(j);
+
+                                if(users_object.getInt("id_user")==Data.getId_user()){
+                                    select_especific_user(users_object.getInt("id_companion"));
+                                }else{
+                                    if(users_object.getInt("id_companion")==Data.getId_user()){
+                                        select_especific_user(users_object.getInt("id_user"));
+                                    }
+                                }
+                            }
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                message.message("Error", "datos erroneos "+error, getContext());
+            }
+        });
+
+        queue.add(request2);
+    }
+
+    private void select_especific_user(int id){
+        String url=Rest_api.url_mysql+Rest_api.select_specific_user+"?id_user="+id;
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+
+        StringRequest request2=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray json_users=new JSONArray(response);
+
+                            if(json_users.length()>0){
+                                JSONObject users_object=json_users.getJSONObject(0);
+
+                                String id=users_object.getString("id_user");
+                                String name=users_object.getString("name_user");
+                                String account=users_object.getString("account");
+                                String email=users_object.getString("email");
+                                String user=id+"-"+name+"-"+account+"-"+email;
+                                user_list2.add(user);
+                            }
+
+                            Log.e("dif",""+user_list2);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.list_check, user_list2);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            list_users_group.setAdapter(adapter);
+
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                message.message("Error", "datos erroneos "+error, getContext());
+            }
+        });
+
+        queue.add(request2);
     }
 }

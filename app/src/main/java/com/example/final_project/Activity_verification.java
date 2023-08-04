@@ -1,12 +1,15 @@
 package com.example.final_project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +24,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.final_project.Fragment.Fragment_home;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
@@ -71,8 +73,6 @@ public class Activity_verification extends AppCompatActivity {
                     if(txt_number1.getText().toString().equals(String.valueOf(code))){
                         if(activity==0){
                             insert();
-                            Intent intent = new Intent(getApplicationContext(), Activity_main.class);
-                            startActivity(intent);
                         }else{
                             if(activity==1 || activity==2){
                                 update_password();
@@ -322,9 +322,7 @@ public class Activity_verification extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
-                        message.message("Alerta","Tu cuenta se ha creado exitosamente, por favor guarda tu numero de cuenta "+Data.getAccount()+" porque no se podra cambiar"+response, Activity_verification.this);
-                        Intent new_window=new Intent(getApplicationContext(), Activity_main.class);//new_window=nueva ventana
-                        startActivity(new_window);
+                        show_account();
                     }
                 },
                 new Response.ErrorListener(){
@@ -347,12 +345,30 @@ public class Activity_verification extends AppCompatActivity {
                 parameters.put("phone",Data.getPhone());
                 parameters.put("email",Data.getEmail());
                 parameters.put("id_career",String.valueOf(Data.getId_career()));
-                /*parameters.put("photo","");*/
+                parameters.put("photo",Data.getPhoto());
+                parameters.put("token",Activity_welcome.token);
 
                 return parameters;
             }
         };
 
         queue.add(request);
+    }
+
+    private void show_account(){
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+        builder2.setMessage("Tu cuenta se ha creado exitosamente, por favor guarda tu numero de cuenta "+Data.getAccount()+" porque no se podra cambiar");
+        builder2.setTitle("Adventencia");
+
+        builder2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog2, int which2) {
+                Intent new_window=new Intent(getApplicationContext(), Activity_main.class);//new_window=nueva ventana
+                startActivity(new_window);
+            }
+        });
+
+        AlertDialog dialog2 = builder2.create();
+        dialog2.show();
     }
 }

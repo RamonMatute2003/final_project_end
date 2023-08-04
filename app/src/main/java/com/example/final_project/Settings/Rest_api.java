@@ -18,5 +18,13 @@ public class Rest_api {
     public static final String select_friend="select_friend.php";
     public static final String insert_friend="insert_friend.php";
     public static final String select_add_friends="select_add_friends.php";
-
+    public static final String update_photo="update_photo.php";
+    public static final String insert_group="insert_group.php";
+    public static final String select_id_group="select_id_group.php";
+    public static final String insert_member="insert_member.php";
+    public static final String select_group_amphitryon="select_group_amphitryon.php";
+    public static final String update_token="update_token.php";
+    public static final String send_message="send_message.php";
+    public static final String select_groups_chat="select_groups_chat.php";
+    public static final String select_members="select_members.php";
 }

@@ -1,14 +1,36 @@
 package com.example.final_project.Fragment;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.final_project.R;
+import com.example.final_project.Settings.Data;
+import com.example.final_project.Settings.Message;
+import com.example.final_project.Settings.Rest_api;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,10 +79,128 @@ public class Fragment_groups extends Fragment {
         }
     }
 
+    TextView btn_create_group_link;
+    ListView list_my_groups;
+    Message message=new Message();
+    List<String> group_list2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_groups, container, false);
+        View root=inflater.inflate(R.layout.fragment_groups, container, false);
+        btn_create_group_link=root.findViewById(R.id.btn_add_members);
+        list_my_groups=root.findViewById(R.id.list_my_groups);
+
+        btn_create_group_link.setOnClickListener(v->{
+            options(1);
+        });
+
+        list_my_groups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                Fragment_view_group fragment_view_group=new Fragment_view_group();
+                fragmentTransaction.replace(R.id.frameContainer, fragment_view_group);
+                Bundle args=new Bundle();
+                args.putString("data", parent.getItemAtPosition(position).toString());
+                fragment_view_group.setArguments(args);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        select_groups_amphitryon();
+        return root;
+    }
+
+    private void options(int i){
+        FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+
+        if(i==1){
+            fragmentTransaction.replace(R.id.frameContainer, new Fragment_create_group());
+        }else{
+
+        }
+
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void select_groups(){
+        String url= Rest_api.url_mysql+Rest_api.select_id_group+"?id_user="+Data.getId_user();
+        RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
+
+        StringRequest request2=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray json_users=new JSONArray(response);
+
+                            for(int j=0; j<json_users.length(); j++){
+                                JSONObject users_object=json_users.getJSONObject(j);
+
+                                String id=users_object.getString("id_group");
+                                String name=users_object.getString("group_name");
+                                String user=id+"-"+name;
+                                group_list2.add(user);
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, group_list2);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                            list_my_groups.setAdapter(adapter);
+
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                message.message("Error", "datos erroneos "+error, getContext());
+            }
+        });
+
+        queue.add(request2);
+    }
+
+    private void select_groups_amphitryon(){
+        String url=Rest_api.url_mysql+Rest_api.select_group_amphitryon+"?id_user="+Data.getId_user();
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+
+        StringRequest request2=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray json_users=new JSONArray(response);
+                            group_list2 =new ArrayList<>();
+
+                            for(int j=0; j<json_users.length(); j++){
+                                JSONObject users_object=json_users.getJSONObject(j);
+
+                                String id=users_object.getString("id_group");
+                                String name=users_object.getString("group_name");
+                                String group=id+"-"+name;
+                                group_list2.add(group);
+                            }
+
+                            select_groups();
+
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                message.message("Error", "datos erroneos "+error, getContext());
+            }
+        });
+
+        queue.add(request2);
     }
 }

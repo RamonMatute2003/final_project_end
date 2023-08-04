@@ -4,8 +4,16 @@ import java.util.Date;
 
 public class Data{
 
-    private static String email, password, career, name, phone, dni, account, birth_date;//birth_date=fecha de nacimiento, phone=telefono,email=correo, password=contraseña, career=carrera, name=nombre, account=cuenta
+    private static String email, password, career, name, phone, dni, account, birth_date, photo;//birth_date=fecha de nacimiento, phone=telefono,email=correo, password=contraseña, career=carrera, name=nombre, account=cuenta
     private static Integer id_career, id_user;
+
+    public static String getPhoto() {
+        return photo;
+    }
+
+    public static void setPhoto(String photo) {
+        Data.photo = photo;
+    }
 
     public Data(String email, String password, String career, String name, String phone, String dni, String birth_date){
         this.email=email;

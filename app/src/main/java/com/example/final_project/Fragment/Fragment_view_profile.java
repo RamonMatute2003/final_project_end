@@ -1,12 +1,15 @@
 package com.example.final_project.Fragment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,16 +27,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.final_project.Activity_main;
-import com.example.final_project.Activity_verification;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.final_project.Models.Firebase;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Rest_api;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,6 +96,7 @@ public class Fragment_view_profile extends Fragment {
     Button btn_action;
     int id_user, id_friend, status;
     final String text_add ="Agregar amigo", text_del="Eliminar amigo";
+    Firebase firebase=new Firebase();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -127,6 +135,8 @@ public class Fragment_view_profile extends Fragment {
             }
         });
 
+        firebase.get_token("Profile_pictures");
+
         return root;
     }
 
@@ -146,7 +156,12 @@ public class Fragment_view_profile extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
-                        Log.e("exitoso", response);
+                        btn_action.setText(text_del);
+                        FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameContainer, new Fragment_add_remove_companions());
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 },
                 new Response.ErrorListener(){
@@ -174,7 +189,6 @@ public class Fragment_view_profile extends Fragment {
     private void show_message(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("¿Seguro que lo deseas eliminar de tus amigos?");
-
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -195,21 +209,17 @@ public class Fragment_view_profile extends Fragment {
     private void delete_friend(){
         String url=Rest_api.url_mysql+Rest_api.delete_friend;
         RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+        btn_action.setText(text_add);
 
         StringRequest request2=new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
-                        try{
-                            JSONArray json_users=new JSONArray(response);
-
-                            if(json_users.length()>0){
-                                btn_action.setText(text_add);
-                            }
-
-                        }catch(JSONException e){
-                            Log.e("Error", "datos erroneos "+e);
-                        }
+                        FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.frameContainer, new Fragment_add_remove_companions());
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 },new Response.ErrorListener() {
             @Override
@@ -253,6 +263,7 @@ public class Fragment_view_profile extends Fragment {
                                 txt_email_view.setText("Correo: "+user_object.getString("email"));
                                 txt_name_view.setText("Nombre: "+user_object.getString("name_user"));
                                 id_friend=user_object.getInt("id_friend");
+                                Glide.with(getContext()).load(user_object.getString("photo")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image_view);
                             }
 
                         }catch(JSONException e){
@@ -291,6 +302,7 @@ public class Fragment_view_profile extends Fragment {
                                 txt_career_view.setText("Carrera: "+user_object.getString("career_name"));
                                 txt_email_view.setText("Correo: "+user_object.getString("email"));
                                 txt_name_view.setText("Nombre: "+user_object.getString("name_user"));
+                                Glide.with(getContext()).load(user_object.getString("photo")).diskCacheStrategy(DiskCacheStrategy.ALL).into(image_view);
                             }
 
                         }catch(JSONException e){

@@ -37,14 +37,14 @@
                 android:textSize="34sp" />
 
             <EditText
-                android:id="@+id/txt_account_number"
+                android:id="@+id/txt_name_group"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="32dp"
                 android:background="@drawable/border_radius_background"
-                android:drawableLeft="@drawable/user_symbol2"
+                android:drawableStart="@drawable/user_symbol2"
                 android:ems="10"
                 android:hint="Ingrese su numero de cuenta"
                 android:inputType="number|numberSigned"
@@ -72,7 +72,7 @@
                 />
 
             <Button
-                android:id="@+id/btn_sign_in2"
+                android:id="@+id/btn_create_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
