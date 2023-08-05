@@ -39,7 +39,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/txt_search_group"
+        android:id="@+id/txt_search_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search_symbol"
@@ -74,8 +74,14 @@
             android:orientation="vertical">
 
             <ListView
+                android:id="@+id/list_view"
                 android:layout_width="match_parent"
-                android:layout_height="565dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="32dp"
+                android:choiceMode="multipleChoice"
+                tools:ignore="NestedScrolling" />
 
 
         </LinearLayout>
@@ -100,7 +106,7 @@
             app:backgroundTint="@null" />
 
         <Button
-            android:id="@+id/btn_sign_in"
+            android:id="@+id/btn_delete_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"

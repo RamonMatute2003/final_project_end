@@ -1,17 +1,14 @@
 package com.example.final_project.Fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.final_project.Activity_welcome;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.messaging.FirebaseMessaging;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,23 +26,16 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.final_project.Activity_main;
-import com.example.final_project.Activity_verification;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -105,6 +94,8 @@ public class Fragment_create_group extends Fragment {
     List<String> user_list2;
     Message message=new Message();
     List<String> selected_items=new ArrayList<>();
+    EditText txt_search_group;
+    ArrayAdapter<String> adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,7 +105,27 @@ public class Fragment_create_group extends Fragment {
         btn_create_group=root.findViewById(R.id.btn_create_group);
         txt_name_group=root.findViewById(R.id.txt_name_group);
         list_users_group=root.findViewById(R.id.list_users_group);
+        txt_search_group=root.findViewById(R.id.txt_search_members);
         select_companions();
+
+        txt_search_group.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (adapter != null) {
+                    adapter.getFilter().filter(text);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         list_users_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -190,6 +201,7 @@ public class Fragment_create_group extends Fragment {
                         String errorMessage = "Error: " + error.getMessage();
                         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
                         Log.e("Volley Error", errorMessage);
+                        message.message("Error", errorMessage, getContext());
                     }
                 }){
             @NonNull
@@ -223,6 +235,7 @@ public class Fragment_create_group extends Fragment {
                         String errorMessage = "Error: " + error.getMessage();
                         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
                         Log.e("Volley Error", errorMessage);
+                        message.message("Error", errorMessage, getContext());
                     }
                 }) {
             @NonNull
@@ -299,7 +312,7 @@ public class Fragment_create_group extends Fragment {
                             }
 
                             Log.e("dif",""+user_list2);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.list_check, user_list2);
+                            adapter = new ArrayAdapter<>(getContext(), R.layout.list_check, user_list2);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             list_users_group.setAdapter(adapter);

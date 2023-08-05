@@ -18,7 +18,7 @@
         android:textSize="34sp" />
 
     <EditText
-        android:id="@+id/txt_search_group"
+        android:id="@+id/txt_search_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search_symbol"
@@ -28,27 +28,36 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="682dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ListView
+                android:id="@+id/list_add_members"
                 android:layout_width="match_parent"
-                android:layout_height="565dp" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="32dp"
+                android:choiceMode="multipleChoice"
+                tools:ignore="NestedScrolling" />
 
         </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="207dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:animateLayoutChanges="false"
+        android:layoutDirection="locale"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_add_members1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"

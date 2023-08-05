@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -83,6 +85,8 @@ public class Fragment_groups extends Fragment {
     ListView list_my_groups;
     Message message=new Message();
     List<String> group_list2;
+    EditText txt_search_group;
+    ArrayAdapter<String> adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +94,7 @@ public class Fragment_groups extends Fragment {
         View root=inflater.inflate(R.layout.fragment_groups, container, false);
         btn_create_group_link=root.findViewById(R.id.btn_add_members);
         list_my_groups=root.findViewById(R.id.list_my_groups);
+        txt_search_group=root.findViewById(R.id.txt_search_members);
 
         btn_create_group_link.setOnClickListener(v->{
             options(1);
@@ -111,6 +116,26 @@ public class Fragment_groups extends Fragment {
         });
 
         select_groups_amphitryon();
+
+        txt_search_group.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if(adapter != null){
+                    adapter.getFilter().filter(text);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         return root;
     }
 
@@ -148,7 +173,7 @@ public class Fragment_groups extends Fragment {
                                 group_list2.add(user);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, group_list2);
+                            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, group_list2);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             list_my_groups.setAdapter(adapter);

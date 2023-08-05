@@ -69,7 +69,8 @@
             android:exported="true" />
         <activity
             android:name=".Activity_sign_up"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".Activity_welcome"
             android:exported="true">

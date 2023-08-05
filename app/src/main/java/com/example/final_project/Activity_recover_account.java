@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
+import com.example.final_project.Settings.Validation_field;
 
 public class Activity_recover_account extends AppCompatActivity {
     EditText txt_account_recover, txt_new_password, txt_repeat_new_password;
@@ -28,14 +29,26 @@ public class Activity_recover_account extends AppCompatActivity {
         btn_change_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(txt_account_recover.getText().toString().isEmpty() && txt_new_password.getText().toString().isEmpty() && txt_repeat_new_password.getText().toString().isEmpty()){
+                if(txt_account_recover.getText().toString().isEmpty() || txt_new_password.getText().toString().isEmpty() || txt_repeat_new_password.getText().toString().isEmpty()){
                     message.message("Advertencia", "No dejar campos vacios", Activity_recover_account.this);
                 }else{
-                    Intent new_window=new Intent(getApplicationContext(), Activity_verification.class);//new_window=nueva ventana
-                    new_window.putExtra("activity",1);
-                    Data.setAccount(txt_account_recover.getText().toString());
-                    Data.setPassword(txt_new_password.getText().toString());
-                    startActivity(new_window);
+                    if(Validation_field.isValidPassword(txt_new_password.getText().toString())){
+                        if(Validation_field.isValidPassword(txt_repeat_new_password.getText().toString())){
+                            if(txt_new_password.getText().toString().equals(txt_repeat_new_password.getText().toString())){
+                                Intent new_window=new Intent(getApplicationContext(), Activity_verification.class);//new_window=nueva ventana
+                                new_window.putExtra("activity",1);
+                                Data.setAccount(txt_account_recover.getText().toString());
+                                Data.setPassword(txt_new_password.getText().toString());
+                                startActivity(new_window);
+                            }else{
+                                message.message("Contaseña incorrecta", "Las contraseñas no son iguales",getApplicationContext());
+                            }
+                        }else{
+                            message.message("Alerta", "Caracteres incorrectos en repetir contraseña nueva, revisa nuestro manual de usuario",getApplicationContext());
+                        }
+                    }else{
+                        message.message("Alerta", "Caracteres incorrectos en contraseña nueva, revisa nuestro manual de usuario",getApplicationContext());
+                    }
                 }
             }
         });

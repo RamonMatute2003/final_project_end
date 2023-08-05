@@ -67,7 +67,6 @@ public class Activity_main extends AppCompatActivity {
                         if(received_intent.hasExtra("status")){
                             Bundle args=new Bundle();
                             args.putInt("id_user",Integer.parseInt((getIntent().getExtras()).getString("view")));
-                            Log.e("a0",(getIntent().getExtras()).getString("status"));
                             args.putInt("status",Integer.parseInt((getIntent().getExtras()).getString("status")));
                             fragment.setArguments(args);
                         }

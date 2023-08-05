@@ -15,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +106,7 @@ public class Fragment_add_remove_companions extends Fragment {
     Spinner sp_options;
     Message message=new Message();
     List<String> user_list2;
+    ArrayAdapter<String> adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +117,7 @@ public class Fragment_add_remove_companions extends Fragment {
         txt_search_users=root.findViewById(R.id.txt_search_users);
         sp_options=root.findViewById(R.id.sp_options);
         list_view_users=root.findViewById(R.id.sp_list_users);
+        txt_search_users=root.findViewById(R.id.txt_search_users);
 
         sp_options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -148,6 +152,25 @@ public class Fragment_add_remove_companions extends Fragment {
                 new_window.putExtra("view", text.substring(0, index));
                 new_window.putExtra("status", String.valueOf(sp_options.getSelectedItemId()));
                 startActivity(new_window);
+            }
+        });
+
+        txt_search_users.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (adapter != null) {
+                    adapter.getFilter().filter(text);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -215,7 +238,7 @@ public class Fragment_add_remove_companions extends Fragment {
                             }
 
                             Log.e("dif",""+user_list2);
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
+                            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             list_view_users.setAdapter(adapter);

@@ -17,11 +17,13 @@
         android:background="@drawable/border_radius_background"
         android:ems="10"
         android:hint="Numero de cuenta"
-        android:inputType="text"
+        android:inputType="number"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLength="16"
+        />
 
     <EditText
         android:id="@+id/txt_new_password"
@@ -33,11 +35,13 @@
         android:background="@drawable/border_radius_background"
         android:ems="10"
         android:hint="Contraseña nueva"
-        android:inputType="text"
+        android:inputType="text|textPassword"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_account_recover" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_account_recover"
+        android:maxLength="50"
+        />
 
     <EditText
         android:id="@+id/txt_repeat_new_password"
@@ -49,11 +53,13 @@
         android:background="@drawable/border_radius_background"
         android:ems="10"
         android:hint="Repetir contraseña nueva"
-        android:inputType="text"
+        android:inputType="text|textPassword"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_new_password" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_new_password"
+        android:maxLength="50"
+        />
 
     <Button
         android:id="@+id/btn_save_changes"

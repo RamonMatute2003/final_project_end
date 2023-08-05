@@ -27,4 +27,8 @@ public class Rest_api {
     public static final String send_message="send_message.php";
     public static final String select_groups_chat="select_groups_chat.php";
     public static final String select_members="select_members.php";
+    public static final String delete_member="delete_member.php";
+    public static final String delete_group="delete_group.php";
+    public static final String select_insert_group="select_insert_group.php";
+    public static final String select_email="select_email.php";
 }

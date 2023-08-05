@@ -32,6 +32,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.final_project.Models.Firebase;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
+import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
 import com.google.firebase.storage.StorageReference;
 
@@ -97,6 +98,7 @@ public class Fragment_view_profile extends Fragment {
     int id_user, id_friend, status;
     final String text_add ="Agregar amigo", text_del="Eliminar amigo";
     Firebase firebase=new Firebase();
+    Message message=new Message();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -170,6 +172,7 @@ public class Fragment_view_profile extends Fragment {
                         String errorMessage = "Error: " + error.getMessage();
                         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
                         Log.e("Volley Error", errorMessage);
+                        message.message("Error", "Error al "+errorMessage, getContext());
                     }
                 }) {
             @NonNull
@@ -225,6 +228,7 @@ public class Fragment_view_profile extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("Error", "datos erroneos "+error);
+                message.message("Error", "Error al "+error, getContext());
             }
         }){
             @NonNull
@@ -268,12 +272,14 @@ public class Fragment_view_profile extends Fragment {
 
                         }catch(JSONException e){
                             Log.e("e",""+e);
+                            message.message("Error", "Error al "+e, getContext());
                         }
                     }
                 },new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error){
                 Log.e("e",""+error);
+                message.message("Error", "Error al "+error, getContext());
             }
         });
 
@@ -313,6 +319,7 @@ public class Fragment_view_profile extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e("e",""+error);
+                message.message("Error", "Error al "+error, getContext());
             }
         });
 

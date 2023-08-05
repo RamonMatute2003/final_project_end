@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.final_project.Settings.Message;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -36,7 +37,7 @@ public class Activity_welcome extends AppCompatActivity {
 
     private Button btn_sign_in, btn_sign_up;//btn_sign_in=iniciar sesion, btn_sign_up=registrarse
     public static String token;
-
+    Message message=new Message();
     private boolean hasNotificationPermissionGranted = false;
 
     @Override
@@ -59,8 +60,10 @@ public class Activity_welcome extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
                     public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                        if(!task.isSuccessful()){
+                            Log.w(TAG, "Error al obtener el token de registro de FCM", task.getException());
+                            Toast.makeText(getApplicationContext(), "Error token", Toast.LENGTH_SHORT).show();
+                            message.message("Error", "Error al obtener token", getApplicationContext());
                             return;
                         }
 
@@ -106,8 +109,8 @@ public class Activity_welcome extends AppCompatActivity {
 
     private void showSettingDialog() {
         new AlertDialog.Builder(this, com.google.android.material.R.style.MaterialAlertDialog_Material3)
-                .setTitle("Notification Permission")
-                .setMessage("Notification permission is required, Please allow notification permission from setting")
+                .setTitle("Notificacion de permiso")
+                .setMessage("Se requiere permiso de notificación, verifique el permiso de notificación en la configuración")
                 .setPositiveButton("Ok", (dialog, which) -> {
                     Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     intent.setData(Uri.parse("package:" + getPackageName()));
@@ -120,7 +123,7 @@ public class Activity_welcome extends AppCompatActivity {
     private void showNotificationPermissionRationale() {
         new AlertDialog.Builder(this, com.google.android.material.R.style.MaterialAlertDialog_Material3)
                 .setTitle("Alert")
-                .setMessage("Notification permission is required, to show notification")
+                .setMessage("Se requiere permiso de notificación para mostrar la notificación.")
                 .setPositiveButton("Ok", (dialog, which) -> {
                     if (Build.VERSION.SDK_INT >= 33) {
                         notificationPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);

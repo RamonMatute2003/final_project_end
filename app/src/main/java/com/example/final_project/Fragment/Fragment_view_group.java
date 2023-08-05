@@ -148,7 +148,7 @@ public class Fragment_view_group extends Fragment {
     static final int REQUEST_VIDEO_CAPTURE=3;
     private static final int REQUEST_CODE_PICK_DOCUMENT = 4;
     Message message=new Message();
-    String url;
+    String url, id_amphi;
     VideoView videoView;
     String id_group;
 
@@ -195,6 +195,7 @@ public class Fragment_view_group extends Fragment {
             database=FirebaseDatabase.getInstance();
             id_group=data.substring(0, index);
             database_reference=database.getReference(txt_name_group_conf.getText().toString()+"_"+data.substring(0, index));
+            select_group_amphitryon();
         }
 
         database_reference.addChildEventListener(new ChildEventListener() {
@@ -236,7 +237,7 @@ public class Fragment_view_group extends Fragment {
                 new_data();
                 Toast.makeText(getContext(), "Se ha enviado con exito", Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getContext(), "Por favor llenar datos", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Se requiere algun archivo y tambien nombre del archivo", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -286,6 +287,7 @@ public class Fragment_view_group extends Fragment {
             txt_name_file2.setText("");
             url=null;
         });
+
         return root;
     }
 
@@ -397,11 +399,8 @@ public class Fragment_view_group extends Fragment {
 
                             if(jsonArray.length()>0){
                                 JSONObject career_object=jsonArray.getJSONObject(0);//career_object=objeto carrera
-                                String token=career_object.getString("token");
+                                id_amphi=career_object.getString("token");
 
-                                if(Data.getId_user()!=Integer.parseInt(career_object.getString("id_amphitryon"))){
-                                    send_message(token);
-                                }
                             }
 
                         }catch(JSONException e){
@@ -513,10 +512,22 @@ public class Fragment_view_group extends Fragment {
             fragmentTransaction.replace(R.id.frameContainer, new Fragment_groups());
         }else{
             if(i==1){
-                fragmentTransaction.replace(R.id.frameContainer, new Fragment_group_settings());
+                Fragment_group_settings fragment=new Fragment_group_settings();
+                Bundle args=new Bundle();
+                args.putString("data", id_group);
+                fragment.setArguments(args);
+                fragmentTransaction.replace(R.id.frameContainer, fragment);
             }else{
                 if(i==2){
-                    fragmentTransaction.replace(R.id.frameContainer, new Fragment_add_member());
+                    if(Integer.parseInt(id_amphi)!=Data.getId_user()){
+                        message.message("Permiso denegado", "Solo el anfitrion puede agregar", getContext());
+                    }else{
+                        Fragment_add_member fragment=new Fragment_add_member();
+                        Bundle args=new Bundle();
+                        args.putString("data", id_group);
+                        fragment.setArguments(args);
+                        fragmentTransaction.replace(R.id.frameContainer, fragment);
+                    }
                 }
             }
         }
@@ -649,6 +660,7 @@ public class Fragment_view_group extends Fragment {
             UploadTask uploadTask = imageRef.putBytes(data);
             uploadTask.addOnFailureListener(exception -> {
                 Log.e("error", ""+exception);
+                message.message("Error", "Error al "+exception, getContext());
             }).addOnSuccessListener(taskSnapshot -> {
                 imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     url=String.valueOf(uri);
@@ -660,6 +672,7 @@ public class Fragment_view_group extends Fragment {
             UploadTask uploadTask = imageRef.putFile(imageUri);
             uploadTask.addOnFailureListener(exception -> {
                 Log.e("error", ""+exception);
+                message.message("Error", "Error al "+exception, getContext());
             }).addOnSuccessListener(taskSnapshot -> {
                 imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     url=String.valueOf(uri);
@@ -685,6 +698,7 @@ public class Fragment_view_group extends Fragment {
             UploadTask uploadTask = fileRef.putBytes(data);
             uploadTask.addOnFailureListener(exception -> {
                 Log.e("error", "" + exception);
+                message.message("Error", "Error al "+exception, getContext());
             }).addOnSuccessListener(taskSnapshot -> {
                 fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     url = String.valueOf(uri);
@@ -692,6 +706,7 @@ public class Fragment_view_group extends Fragment {
             });
         } else {
             Log.e("error", "Archivo inválido o no encontrado");
+            message.message("Error", "Archivo inválido o no encontrado", getContext());
         }
     }
 

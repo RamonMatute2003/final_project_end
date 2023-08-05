@@ -82,7 +82,7 @@ public class Activity_verification extends AppCompatActivity {
                         }
 
                     }else{
-                        Toast.makeText(getApplicationContext(),"AQUI",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Codigo incorrecto", Toast.LENGTH_LONG).show();
                     }
                }
             }

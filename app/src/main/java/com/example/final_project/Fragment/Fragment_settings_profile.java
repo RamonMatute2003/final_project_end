@@ -42,12 +42,14 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.final_project.Activity_main;
+import com.example.final_project.Activity_sign_up;
 import com.example.final_project.Activity_verification;
 import com.example.final_project.Models.Firebase;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
+import com.example.final_project.Settings.Validation_field;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -164,8 +166,32 @@ public class Fragment_settings_profile extends Fragment {
 
         btn_save_changes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                show_security(btn_save_changes.getText().toString());
+            public void onClick(View v){
+                if(txt_name1.getText().toString().isEmpty() || txt_email2.getText().toString().isEmpty() || txt_phone1.getText().toString().isEmpty() || txt_dni1.getText().toString().isEmpty() || birthdate1.getText().toString().isEmpty()){
+                    message.message("Alerta", "No dejar campos vacios",getContext());
+                }else{
+                    if(Validation_field.isValidName(txt_name1.getText().toString())){
+                        if(Validation_field.isValidEmail(txt_email2.getText().toString())){
+                            if(Validation_field.isValidPhoneNumber(txt_phone1.getText().toString())){
+                                if(Validation_field.isValidDni(txt_dni1.getText().toString())){
+                                    if(Validation_field.isValidBirthdate(birthdate1.getText().toString())){
+                                        show_security(btn_save_changes.getText().toString());
+                                    }else{
+                                        message.message("Alerta", "Fecha no es valida, revisa nuestro manual de usuario", getContext());
+                                    }
+                                }else{
+                                    message.message("Alerta", "Caracteres incorrectos en DNI, revisa nuestro manual de usuario",getContext());
+                                }
+                            }else{
+                                message.message("Alerta", "Caracteres incorrectos en Telefono, revisa nuestro manual de usuario",getContext());
+                            }
+                        }else{
+                            message.message("Alerta", "Caracteres incorrectos en correo electronico, revisa nuestro manual de usuario",getContext());
+                        }
+                    }else{
+                        message.message("Alerta", "Caracteres incorrectos en nombre, revisa nuestro manual de usuario",getContext());
+                    }
+                }
             }
         });
 
@@ -284,7 +310,7 @@ public class Fragment_settings_profile extends Fragment {
         builder.setTitle("Ingresa tu contraseña actual");
 
         final EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -334,17 +360,22 @@ public class Fragment_settings_profile extends Fragment {
         builder2.setTitle("Ingresa tu nueva contraseña");
 
         final EditText input2 = new EditText(getContext());
-        input2.setInputType(InputType.TYPE_CLASS_TEXT);
+        input2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder2.setView(input2);
 
         builder2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog2, int which2) {
                 String new_password = input2.getText().toString();
-                Intent new_window=new Intent(getContext(), Activity_verification.class);
-                new_window.putExtra("activity", 2);
-                new_window.putExtra("new_password", new_password);
-                startActivity(new_window);
+                if(Validation_field.isValidPassword(new_password)){
+                    Intent new_window=new Intent(getContext(), Activity_verification.class);
+                    new_window.putExtra("activity", 2);
+                    new_window.putExtra("new_password", new_password);
+                    startActivity(new_window);
+                }else{
+                    update_password();
+                    Toast.makeText(getContext(),"Caracteres no permitidos en contraseña, revisa nuestro manual de usuario", Toast.LENGTH_LONG).show();
+                }
             }
         });
         builder2.setNegativeButton("Salir", new DialogInterface.OnClickListener() {

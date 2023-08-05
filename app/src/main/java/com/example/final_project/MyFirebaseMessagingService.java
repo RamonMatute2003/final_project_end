@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService{
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
         super.onMessageReceived(message);
@@ -41,9 +42,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         notificationBuilder.setAutoCancel(true)
-                .setDefaults(Notification.DEFAULT_ALL)
+                .setDefaults(Notification.DEFAULT_SOUND)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.icononotificacion)
+                .setSmallIcon(R.drawable.download)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setContentInfo("Info");

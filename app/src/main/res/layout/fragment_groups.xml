@@ -40,7 +40,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/txt_search_group"
+        android:id="@+id/txt_search_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search_symbol"

@@ -23,6 +23,7 @@ import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
 import com.example.final_project.Settings.Urderlined;
+import com.example.final_project.Settings.Validation_field;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,9 +60,13 @@ public class Activity_sign_in extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(txt_account_number.getText().toString().isEmpty() || txt_password.getText().toString().isEmpty()){
-                    message.message("No dejar campos vacios", "Alerta", Activity_sign_in.this);
+                    message.message("Alerta", "No dejar campos vacios", Activity_sign_in.this);
                 }else{
-                    select_user();
+                    if(Validation_field.isValidPassword(txt_password.getText().toString())){
+                        select_user();
+                    }else{
+                        message.message("Alerta", "Caracteres no permitidos en contraseña, revisa nuestro manual de usuario", Activity_sign_in.this);
+                    }
                 }
             }
         });
@@ -152,6 +157,7 @@ public class Activity_sign_in extends AppCompatActivity {
                         String errorMessage = "Error: " + error.getMessage();
                         Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                         Log.e("Volley Error", errorMessage);
+                        message.message("Error", "Error al "+errorMessage, getApplicationContext());
                     }
                 }) {
             @NonNull
