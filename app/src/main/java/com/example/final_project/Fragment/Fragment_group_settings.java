@@ -229,13 +229,13 @@ public class Fragment_group_settings extends Fragment {
 
         if(list_copy!=null){
             if(list_copy.toArray().length>0){
-                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list_copy);
+                adapter = new ArrayAdapter<>(getContext(), R.layout.list_check, list_copy);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 list_view.setAdapter(adapter);
             }else{
                 List<String> list = new ArrayList<>();
-                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list);
+                adapter = new ArrayAdapter<>(getContext(), R.layout.list_check, list);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                 list_view.setAdapter(adapter);
@@ -310,7 +310,7 @@ public class Fragment_group_settings extends Fragment {
                 for(int j=0; j<selected_items.toArray().length ;j++){
                     delete_members(selected_items.get(j));
                 }
-                load_data(23);
+                load_data(0);
             }
         });
         builder.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
@@ -354,6 +354,7 @@ public class Fragment_group_settings extends Fragment {
     }
 
     private void load_data(int index){
+        user_list2=new ArrayList<>();
         if(index==0){
             load_amphitryon();
         }
@@ -367,7 +368,6 @@ public class Fragment_group_settings extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray json_users=new JSONArray(response);
-                            user_list2=new ArrayList<>();
 
                             for(int i=0; i<json_users.length(); i++){
                                 JSONObject users_object=json_users.getJSONObject(i);
@@ -378,7 +378,6 @@ public class Fragment_group_settings extends Fragment {
                                 String email=users_object.getString("email");
                                 String user=id+"-"+name+"-"+account+"-"+email;
 
-                                user_list2 = new ArrayList<>();
                                 if(Integer.parseInt(id)!=Data.getId_user()){
                                     user_list2.add(user);
                                 }
@@ -413,7 +412,6 @@ public class Fragment_group_settings extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray json_users=new JSONArray(response);
-                            user_list2 = new ArrayList<>();
 
                             if(json_users.length()>0){
                                 JSONObject users_object=json_users.getJSONObject(0);
