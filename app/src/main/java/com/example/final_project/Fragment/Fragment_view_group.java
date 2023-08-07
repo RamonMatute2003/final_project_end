@@ -188,6 +188,7 @@ public class Fragment_view_group extends Fragment {
         });
 
         recyclerView.setAdapter(adapter_messages);
+        set_scroll();
 
         Bundle args=getArguments();
         if(args!=null){
@@ -396,6 +397,7 @@ public class Fragment_view_group extends Fragment {
                         txt_name_file2.setText("");
                         select_token_members();
                         select_group_amphitryon(1);
+                        set_scroll();
                     }else{
                         Toast.makeText(getActivity(), "Error al guardar el mensaje", Toast.LENGTH_SHORT).show();
                     }
@@ -509,7 +511,7 @@ public class Fragment_view_group extends Fragment {
     }
 
     private void set_scroll(){
-        recyclerView.scrollToPosition(adapter_messages.getItemCount());
+        recyclerView.smoothScrollToPosition(adapter_messages.getItemCount());
     }
 
     private void permisos(){
@@ -692,6 +694,7 @@ public class Fragment_view_group extends Fragment {
             Log.e("error", "Archivo inválido o no encontrado");
             message.message("Error", "Archivo inválido o no encontrado", getContext());
         }
+        set_scroll();
     }
 
     private String generate_name(){

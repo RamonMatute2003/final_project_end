@@ -267,7 +267,7 @@ public class Fragment_settings_profile extends Fragment {
     private void showMenuDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Elija una opción");
-        builder.setItems(new CharSequence[]{"Tomar foto", "Elegir de galería"},
+        builder.setItems(new CharSequence[]{"Tomar foto", "Elegir de galería", "Cancelar"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -288,6 +288,9 @@ public class Fragment_settings_profile extends Fragment {
                             case 1:
                                 Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                 startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_FROM_GALLERY);
+                                break;
+                            case 2:
+                                dialog.dismiss();
                                 break;
                         }
                     }
