@@ -418,8 +418,11 @@ public class Fragment_view_group extends Fragment {
                             if(jsonArray.length()>0){
                                 JSONObject career_object=jsonArray.getJSONObject(0);//career_object=objeto carrera
                                 id_amphi=career_object.getString("id_amphitryon");
-                            }
 
+                                if(Data.getId_user()!=Integer.parseInt(career_object.getString("id_amphitryon"))){
+                                    send_message(career_object.getString("token"));
+                                }
+                            }
                         }catch(JSONException e){
                             message.message("Error", "datos "+e, getContext());
                         }

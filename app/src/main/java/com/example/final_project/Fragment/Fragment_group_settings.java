@@ -125,7 +125,6 @@ public class Fragment_group_settings extends Fragment {
 
         load_data(0);
 
-
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -364,6 +363,7 @@ public class Fragment_group_settings extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray json_users=new JSONArray(response);
+                            user_list2=new ArrayList<>();
 
                             for(int i=0; i<json_users.length(); i++){
                                 JSONObject users_object=json_users.getJSONObject(i);
@@ -409,6 +409,7 @@ public class Fragment_group_settings extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray json_users=new JSONArray(response);
+                            user_list2 = new ArrayList<>();
 
                             if(json_users.length()>0){
                                 JSONObject users_object=json_users.getJSONObject(0);
