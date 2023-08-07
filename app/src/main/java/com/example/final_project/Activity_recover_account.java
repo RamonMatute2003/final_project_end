@@ -41,13 +41,13 @@ public class Activity_recover_account extends AppCompatActivity {
                                 Data.setPassword(txt_new_password.getText().toString());
                                 startActivity(new_window);
                             }else{
-                                message.message("Contaseña incorrecta", "Las contraseñas no son iguales",getApplicationContext());
+                                message.message("Contaseña incorrecta", "Las contraseñas no son iguales",Activity_recover_account.this);
                             }
                         }else{
-                            message.message("Alerta", "Caracteres incorrectos en repetir contraseña nueva, revisa nuestro manual de usuario",getApplicationContext());
+                            message.message("Alerta", "Caracteres incorrectos en repetir contraseña nueva, revisa nuestro manual de usuario",Activity_recover_account.this);
                         }
                     }else{
-                        message.message("Alerta", "Caracteres incorrectos en contraseña nueva, revisa nuestro manual de usuario",getApplicationContext());
+                        message.message("Alerta", "Caracteres incorrectos en contraseña nueva, revisa nuestro manual de usuario",Activity_recover_account.this);
                     }
                 }
             }

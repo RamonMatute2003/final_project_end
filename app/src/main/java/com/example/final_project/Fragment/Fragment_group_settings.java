@@ -171,15 +171,19 @@ public class Fragment_group_settings extends Fragment {
         });
 
         btn_add_members.setOnClickListener(act->{
-            FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-            Fragment_add_member fragment=new Fragment_add_member();
-            Bundle args1=new Bundle();
-            args1.putString("data", id_group);
-            fragment.setArguments(args1);
-            fragmentTransaction.replace(R.id.frameContainer, fragment);
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            if(Integer.parseInt(id_amphi)==Data.getId_user()){
+                FragmentManager fragmentManager=requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                Fragment_add_member fragment=new Fragment_add_member();
+                Bundle args1=new Bundle();
+                args1.putString("data", id_group);
+                fragment.setArguments(args1);
+                fragmentTransaction.replace(R.id.frameContainer, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }else{
+                message.message("Permiso denegado", "Solo el anfitrion puede agregar", getContext());
+            }
         });
 
         txt_search_group.addTextChangedListener(new TextWatcher() {

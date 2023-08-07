@@ -59,7 +59,7 @@ public class Activity_verification extends AppCompatActivity {
         Urderlined urderlined=new Urderlined();//urderline=subrayado
         urderlined.aesthetics_textView(link_resend_code, "Volver a enviar codigo");
 
-        start_again();
+        start_again(0);
 
         txt_number1.addTextChangedListener(new TextWatcher(){
             @Override
@@ -112,7 +112,7 @@ public class Activity_verification extends AppCompatActivity {
         link_resend_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                start_again();
+                start_again(1);
             }
         });
     }
@@ -164,11 +164,13 @@ public class Activity_verification extends AppCompatActivity {
         queue.add(request);
     }
 
-    private void start_again(){//start_again=empezar de nuevo
+    private void start_again(int index){//start_again=empezar de nuevo
         if(is_running==false){
             start_timer();//start_timer=temporizador de inicio
             if(main_email!=null){
-                generate_code(main_email);
+                if(index!=0){
+                    generate_code(main_email);
+                }
             }
         }else{
             message.message("Advertencia","Espera a que se acabe el tiempo para volver a enviar el codigo", Activity_verification.this);

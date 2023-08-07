@@ -197,7 +197,7 @@ public class Fragment_view_group extends Fragment {
             database=FirebaseDatabase.getInstance();
             id_group=data.substring(0, index);
             database_reference=database.getReference(txt_name_group_conf.getText().toString()+"_"+data.substring(0, index));
-            select_group_amphitryon();
+            select_group_amphitryon(0);
         }
 
         database_reference.addChildEventListener(new ChildEventListener() {
@@ -395,7 +395,7 @@ public class Fragment_view_group extends Fragment {
                         url = null;
                         txt_name_file2.setText("");
                         select_token_members();
-                        select_group_amphitryon();
+                        select_group_amphitryon(1);
                     }else{
                         Toast.makeText(getActivity(), "Error al guardar el mensaje", Toast.LENGTH_SHORT).show();
                     }
@@ -404,7 +404,7 @@ public class Fragment_view_group extends Fragment {
         }
     }
 
-    private void select_group_amphitryon(){
+    private void select_group_amphitryon(int i){
         String url= Rest_api.url_mysql+Rest_api.select_groups_chat+"?id_group="+id_group;
         RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
 
@@ -419,8 +419,10 @@ public class Fragment_view_group extends Fragment {
                                 JSONObject career_object=jsonArray.getJSONObject(0);//career_object=objeto carrera
                                 id_amphi=career_object.getString("id_amphitryon");
 
-                                if(Data.getId_user()!=Integer.parseInt(career_object.getString("id_amphitryon"))){
-                                    send_message(career_object.getString("token"));
+                                if(i==1){
+                                    if(Data.getId_user()!=Integer.parseInt(career_object.getString("id_amphitryon"))){
+                                        send_message(career_object.getString("token"));
+                                    }
                                 }
                             }
                         }catch(JSONException e){
