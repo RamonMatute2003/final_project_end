@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -53,6 +54,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -107,6 +110,7 @@ public class Fragment_add_remove_companions extends Fragment {
     Message message=new Message();
     List<String> user_list2;
     ArrayAdapter<String> adapter;
+    int value=0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,7 +121,6 @@ public class Fragment_add_remove_companions extends Fragment {
         txt_search_users=root.findViewById(R.id.txt_search_users);
         sp_options=root.findViewById(R.id.sp_options);
         list_view_users=root.findViewById(R.id.sp_list_users);
-        txt_search_users=root.findViewById(R.id.txt_search_users);
 
         sp_options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -135,6 +138,11 @@ public class Fragment_add_remove_companions extends Fragment {
                     list_view_users.setAdapter(adapter);
                     select_add_people();
                 }
+
+                if(value==1){
+                    search_text();
+                }
+                value=1;
             }
 
             @Override
@@ -162,10 +170,8 @@ public class Fragment_add_remove_companions extends Fragment {
             }
 
             @Override
-            public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if (adapter != null) {
-                    adapter.getFilter().filter(text);
-                }
+            public void onTextChanged(CharSequence text, int start, int before, int count){
+                search_text();
             }
 
             @Override
@@ -175,6 +181,48 @@ public class Fragment_add_remove_companions extends Fragment {
         });
 
         return root;
+    }
+
+    private void search_text(){
+        List<String> list_copy=new ArrayList<>();
+
+        for(int j=0; j<user_list2.toArray().length; j++){
+            boolean search=false;
+            String cadenaCompleta = user_list2.get(j);
+            String parteBuscada = txt_search_users.getText().toString();
+
+            Pattern pattern = Pattern.compile(parteBuscada);
+            Matcher matcher = pattern.matcher(cadenaCompleta);
+
+            while(matcher.find()){
+                search=true;
+                break;
+            }
+
+            if(search){
+                list_copy.add(cadenaCompleta);
+            }
+        }
+
+        if(list_copy!=null){
+            if(list_copy.toArray().length>0){
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list_copy);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_view_users.setAdapter(adapter);
+            }else{
+                List<String> list = new ArrayList<>();
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_view_users.setAdapter(adapter);
+            }
+        }else{
+            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            list_view_users.setAdapter(adapter);
+        }
     }
 
     private void select_companions(){
@@ -296,7 +344,7 @@ public class Fragment_add_remove_companions extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray jsonArray=new JSONArray(response);
-                            List<String> user_list = new ArrayList<>();
+                            user_list2 = new ArrayList<>();
 
                             for(int i=0; i<json_users.length(); i++){
 
@@ -320,10 +368,10 @@ public class Fragment_add_remove_companions extends Fragment {
                                 String account=users_object.getString("account");
                                 String email=users_object.getString("email");
                                 String user=id+"-"+name+"-"+account+"-"+email;
-                                user_list.add(user);
+                                user_list2.add(user);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list);
+                            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             list_view_users.setAdapter(adapter);

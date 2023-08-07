@@ -60,6 +60,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -226,8 +227,41 @@ public class Fragment_settings_profile extends Fragment {
         });
 
         firebase.get_token("Profile_pictures");
+        select_count_companions();
 
         return root;
+    }
+
+    private void select_count_companions(){
+        String url=Rest_api.url_mysql+Rest_api.select_count_companions+"?id_user="+Data.getId_user();
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
+
+        StringRequest request2=new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>(){
+                    @Override
+                    public void onResponse(String response){
+                        try{
+                            JSONArray json_users=new JSONArray(response);
+
+                            if(json_users.length()>0){
+                                JSONObject users_object=json_users.getJSONObject(0);
+
+                                txt_friends.setText("Amigos: "+users_object.getString("counter"));
+                            }else{
+                                txt_friends.setText("Amigos: 0");
+                            }
+                        }catch(JSONException e){
+                            message.message("Error", "datos "+e, getContext());
+                        }
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                message.message("Error", "datos erroneos "+error, getContext());
+            }
+        });
+
+        queue.add(request2);
     }
 
     private void showMenuDialog() {
@@ -310,7 +344,7 @@ public class Fragment_settings_profile extends Fragment {
         builder.setTitle("Ingresa tu contraseña actual");
 
         final EditText input = new EditText(getContext());
-        input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
 
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -360,7 +394,7 @@ public class Fragment_settings_profile extends Fragment {
         builder2.setTitle("Ingresa tu nueva contraseña");
 
         final EditText input2 = new EditText(getContext());
-        input2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder2.setView(input2);
 
         builder2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
@@ -542,7 +576,7 @@ public class Fragment_settings_profile extends Fragment {
 
     private void delete_photo(){
         AlertDialog.Builder builder2 = new AlertDialog.Builder(requireContext());
-        builder2.setTitle("Deseas borrar tu foto?");
+        builder2.setTitle("¿Deseas borrar tu foto?");
 
         builder2.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override

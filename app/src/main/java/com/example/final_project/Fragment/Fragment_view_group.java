@@ -22,6 +22,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.final_project.Activity_sign_in;
 import com.example.final_project.Activity_welcome;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Adapter_messages;
@@ -56,6 +58,7 @@ import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Messages_groups;
 import com.example.final_project.Settings.Rest_api;
 import com.example.final_project.Settings.UriToFileConverter;
+import com.example.final_project.Settings.Validation_field;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -169,7 +172,6 @@ public class Fragment_view_group extends Fragment {
         recyclerView=root.findViewById(R.id.recyclerView);
         imgbtn_send=root.findViewById(R.id.imgbtn_send);
         txt_name_file2=root.findViewById(R.id.txt_name_file2);
-        scrollView=root.findViewById(R.id.scrollView5);
         image_send=root.findViewById(R.id.image_send);
         videoView=root.findViewById(R.id.videoView);
         btn_cancel=root.findViewById(R.id.btn_cancel);
@@ -234,8 +236,12 @@ public class Fragment_view_group extends Fragment {
 
         imgbtn_send.setOnClickListener(act->{
             if(url!=null && !txt_name_file2.getText().toString().equals("")){
-                new_data();
-                Toast.makeText(getContext(), "Se ha enviado con exito", Toast.LENGTH_LONG).show();
+                if(Validation_field.isValidNameText(txt_name_file2.getText().toString())){
+                    new_data();
+                    Toast.makeText(getContext(), "Se ha enviado con exito", Toast.LENGTH_LONG).show();
+                }else{
+                    message.message("Alerta", "Caracteres no permitidos, revisa nuestro manual de usuario", getContext());
+                }
             }else{
                 Toast.makeText(getContext(), "Se requiere algun archivo y tambien nombre del archivo", Toast.LENGTH_LONG).show();
             }
@@ -266,7 +272,17 @@ public class Fragment_view_group extends Fragment {
         });
 
         btn_take_photo.setOnClickListener(act->{
-            showMenuDialog();
+            if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{android.Manifest.permission.CAMERA},
+                        CAMERA_PERMISSION_REQUEST_CODE);
+            } else {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
         });
 
         take_video.setOnClickListener(act->{
@@ -294,7 +310,7 @@ public class Fragment_view_group extends Fragment {
     private void showMenu(int position, List<Messages_groups> list_message){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Elija una opción");
-        builder.setItems(new CharSequence[]{"Descargar archivo", "Eliminar mensaje"},
+        builder.setItems(new CharSequence[]{"Descargar archivo", "Eliminar mensaje", "Cancelar"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -321,6 +337,9 @@ public class Fragment_view_group extends Fragment {
                                     message.message("Solicitud denegada","No puedes borrar un archivo que no lo mandaste tu", getContext());
                                 }
 
+                                break;
+                            case 2:
+                                dialog.dismiss();
                                 break;
                         }
                     }
@@ -371,7 +390,6 @@ public class Fragment_view_group extends Fragment {
                 @Override
                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                     if (databaseError == null) {
-                        onNewContentInserted();
                         image_send.setVisibility(View.GONE);
                         videoView.setVisibility(View.GONE);
                         url = null;
@@ -399,8 +417,7 @@ public class Fragment_view_group extends Fragment {
 
                             if(jsonArray.length()>0){
                                 JSONObject career_object=jsonArray.getJSONObject(0);//career_object=objeto carrera
-                                id_amphi=career_object.getString("token");
-
+                                id_amphi=career_object.getString("id_amphitryon");
                             }
 
                         }catch(JSONException e){
@@ -536,51 +553,6 @@ public class Fragment_view_group extends Fragment {
         fragmentTransaction.commit();
     }
 
-    private void scrollToBottom() {
-        scrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                scrollView.fullScroll(View.FOCUS_DOWN);
-            }
-        });
-    }
-
-    private void onNewContentInserted(){
-        scrollToBottom();
-    }
-
-    private void showMenuDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Elija una opción");
-        builder.setItems(new CharSequence[]{"Tomar foto", "Elegir de galería"},
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        videoView.setVisibility(View.GONE);
-                        switch (which) {
-                            case 0:
-                                if (ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.CAMERA)
-                                        != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(getActivity(),
-                                            new String[]{android.Manifest.permission.CAMERA},
-                                            CAMERA_PERMISSION_REQUEST_CODE);
-                                } else {
-                                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                    }
-                                }
-                                break;
-                            case 1:
-                                Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                startActivityForResult(pickPhotoIntent, REQUEST_IMAGE_FROM_GALLERY);
-                                break;
-                        }
-                    }
-                });
-        builder.show();
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -607,6 +579,9 @@ public class Fragment_view_group extends Fragment {
 
                         videoView.setVisibility(View.VISIBLE);
                         videoView.setVideoURI(videoUri);
+                        MediaController mediaController = new MediaController(getContext());
+                        videoView.setMediaController(mediaController);
+                        mediaController.setAnchorView(videoView);
                         videoView.start();
                         String fileType=getMimeType(getContext(), videoUri);
 
@@ -632,11 +607,15 @@ public class Fragment_view_group extends Fragment {
                             }catch(IOException e){
                                 throw new RuntimeException(e);
                             }
+                            image_send.setVisibility(View.VISIBLE);
+                            videoView.setVisibility(View.GONE);
+                            Glide.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Message_files%2Ffile.png?alt=media&token=fbad2126-e500-4576-bfce-372efce40636").diskCacheStrategy(DiskCacheStrategy.ALL).into(image_send);
                         }
                     }
                     break;
 
             }
+            message.message("Exitoso", "Archivo cargado con exito", getContext());
         }
     }
 

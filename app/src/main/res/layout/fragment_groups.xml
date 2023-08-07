@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,9 +9,16 @@
     tools:context=".Fragment.Fragment_groups">
 
     <LinearLayout
+        android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:orientation="horizontal">
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/txt_name_group_conf"
@@ -28,7 +35,7 @@
             android:id="@+id/btn_add_members"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginLeft="160dp"
+            android:layout_marginLeft="140dp"
             android:layout_marginBottom="30dp"
 
             android:layout_weight="1"
@@ -43,26 +50,28 @@
         android:id="@+id/txt_search_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:drawableLeft="@drawable/search_symbol"
         android:drawableRight="@drawable/cancel_symbol"
         android:ems="10"
-        android:inputType="text" />
-
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </ScrollView>
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout9" />
 
     <ListView
         android:id="@+id/list_my_groups"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_search_members" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/background_main"
     android:orientation="vertical"
     tools:context=".Fragment.Fragment_create_group">
@@ -11,20 +11,25 @@
     <TextView
         android:id="@+id/txt_name_group_conf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:text="Crear grupo"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="34sp" />
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txt_name_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/border_radius_background"
         android:drawableStart="@drawable/item_groups2"
         android:ems="10"
@@ -33,44 +38,52 @@
         android:padding="10dp"
         android:textAlignment="center"
         android:textColorHint="#858585"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_name_group_conf" />
 
     <EditText
         android:id="@+id/txt_search_members"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:drawableStart="@drawable/search_symbol"
         android:drawableEnd="@drawable/cancel_symbol"
         android:ems="10"
-        android:inputType="text" />
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_name_group" />
 
-    <ScrollView
+    <ListView
+        android:id="@+id/list_users_group"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ListView
-                android:id="@+id/list_users_group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="32dp"
-                android:choiceMode="multipleChoice"
-                tools:ignore="NestedScrolling" />
-
-
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:choiceMode="multipleChoice"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_search_members"
+        tools:ignore="NestedScrolling" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="605dp"
-        android:orientation="vertical">
+        android:id="@+id/linearLayout10"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_users_group">
 
         <Button
             android:id="@+id/btn_create_group"
@@ -87,4 +100,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

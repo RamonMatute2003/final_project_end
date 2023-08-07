@@ -70,7 +70,6 @@ public class Activity_welcome extends AppCompatActivity {
                         token=task.getResult();
 
                         Log.e(TAG, token);
-                        Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -102,8 +101,6 @@ public class Activity_welcome extends AppCompatActivity {
                             }
                         }
                     }
-                } else {
-                    Toast.makeText(getApplicationContext(), "notification permission granted", Toast.LENGTH_SHORT).show();
                 }
             });
 

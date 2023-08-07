@@ -32,7 +32,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -125,9 +128,7 @@ public class Fragment_groups extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if(adapter != null){
-                    adapter.getFilter().filter(text);
-                }
+                search_text();
             }
 
             @Override
@@ -137,6 +138,42 @@ public class Fragment_groups extends Fragment {
         });
 
         return root;
+    }
+
+    private void search_text(){
+        List<String> list_copy=new ArrayList<>();
+
+        for(int j=0; j<group_list2.toArray().length; j++){
+            boolean search=false;
+            String cadenaCompleta = group_list2.get(j);
+            String parteBuscada = txt_search_group.getText().toString();
+
+            Pattern pattern = Pattern.compile(parteBuscada);
+            Matcher matcher = pattern.matcher(cadenaCompleta);
+
+            while(matcher.find()){
+                search=true;
+                break;
+            }
+
+            if(search){
+                list_copy.add(cadenaCompleta);
+            }
+        }
+
+        if(list_copy!=null){
+            if(list_copy.toArray().length>0){
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list_copy);
+            }else{
+                List<String> list = new ArrayList<>();
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list);
+            }
+        }else{
+            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, group_list2);
+        }
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        list_my_groups.setAdapter(adapter);
     }
 
     private void options(int i){

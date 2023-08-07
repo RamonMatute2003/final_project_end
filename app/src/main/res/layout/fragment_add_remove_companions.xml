@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,39 +12,43 @@
         android:id="@+id/sp_options"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/border_radius_background"
-        android:entries="@array/options" />
+        android:entries="@array/options"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/txt_search_users"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:drawableStart="@drawable/search_symbol"
         android:drawableEnd="@drawable/cancel_symbol"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="text"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_options" />
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/sp_list_users"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_search_users">
 
-        <ListView
-            android:id="@+id/sp_list_users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="32dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="32dp">
+    </ListView>
 
-        </ListView>
-    </LinearLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

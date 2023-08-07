@@ -136,7 +136,7 @@ public class Activity_sign_up extends AppCompatActivity {
                             Log.e("array",jsonArray+"");
 
                             if(jsonArray.length()>0){
-                                Toast.makeText(getApplicationContext(),"Correo electronico ya se encuentra en uso", Toast.LENGTH_LONG).show();
+                                message.message("Alerta", "Correo ya esta en uso",Activity_sign_up.this);
                             }else{
                                 Data data=new Data(txt_email.getText().toString(), txt_password.getText().toString(), career.getSelectedItem().toString(),txt_name.getText().toString(), txt_phone.getText().toString(), txt_dni.getText().toString(), birthdate.getText().toString());
                                 String account=generate_account();

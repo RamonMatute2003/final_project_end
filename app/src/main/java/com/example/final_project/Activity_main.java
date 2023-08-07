@@ -1,9 +1,11 @@
 package com.example.final_project;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,18 +85,8 @@ public class Activity_main extends AppCompatActivity {
                 Fragment fragment = null;
 
                 if(item.getItemId()==R.id.itemExitToApp){
-                    Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
-                    startActivity(welcome);
-                    Data.setPhone("");
-                    Data.setEmail("");
-                    Data.setAccount("");
-                    Data.setDni("");
-                    Data.setId_career(0);
-                    Data.setBirth_date("");
-                    Data.setPassword("");
-                    Data.setName("");
-                    Data.setId_user(0);
-                    Data.setCareer("");
+                    show_message();
+
                 }else{
                     if(item.getItemId()==R.id.itemGroups){
                         fragment=new Fragment_groups();
@@ -118,6 +110,38 @@ public class Activity_main extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void show_message(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("¿Seguro que deseas cerrar cesion??");
+        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent welcome=new Intent(getApplicationContext(), Activity_welcome.class);
+                Data.setPhone("");
+                Data.setEmail("");
+                Data.setAccount("");
+                Data.setDni("");
+                Data.setId_career(0);
+                Data.setBirth_date("");
+                Data.setPassword("");
+                Data.setName("");
+                Data.setId_user(0);
+                Data.setCareer("");
+                Data.setPhoto("");
+                startActivity(welcome);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void select_id_user(){

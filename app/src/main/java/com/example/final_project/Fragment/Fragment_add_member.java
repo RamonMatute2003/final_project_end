@@ -2,6 +2,7 @@ package com.example.final_project.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -15,7 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -32,8 +35,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,10 +110,12 @@ public class Fragment_add_member extends Fragment {
         btn_add_members1=root.findViewById(R.id.btn_add_members1);
         list_add_members=root.findViewById(R.id.list_add_members);
         txt_search_members=root.findViewById(R.id.txt_search_members);
-        select_companions();
+        select_insert_group();
 
         btn_add_members1.setOnClickListener(act->{
-
+            for(int j=0; j<selected_items.toArray().length; j++){
+                insert_member(selected_items.get(j));
+            }
         });
 
         list_add_members.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -140,9 +149,7 @@ public class Fragment_add_member extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if (adapter != null) {
-                    adapter.getFilter().filter(text);
-                }
+                search_text();
             }
 
             @Override
@@ -154,9 +161,51 @@ public class Fragment_add_member extends Fragment {
         return root;
     }
 
-    private void select_companions(){
-        String url= Rest_api.url_mysql+Rest_api.select_companions_compare+"?id_user="+ Data.getId_user();
-        RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
+    private void search_text(){
+        List<String> list_copy=new ArrayList<>();
+
+        for(int j=0; j<user_list2.toArray().length; j++){
+            boolean search=false;
+            String cadenaCompleta = user_list2.get(j);
+            String parteBuscada = txt_search_members.getText().toString();
+
+            Pattern pattern = Pattern.compile(parteBuscada);
+            Matcher matcher = pattern.matcher(cadenaCompleta);
+
+            while(matcher.find()){
+                search=true;
+                break;
+            }
+
+            if(search){
+                list_copy.add(cadenaCompleta);
+            }
+        }
+
+        if(list_copy!=null){
+            if(list_copy.toArray().length>0){
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list_copy);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_add_members.setAdapter(adapter);
+            }else{
+                List<String> list = new ArrayList<>();
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_add_members.setAdapter(adapter);
+            }
+        }else{
+            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            list_add_members.setAdapter(adapter);
+        }
+    }
+
+    private void select_insert_group(){
+        String url=Rest_api.url_mysql+Rest_api.select_insert_group+"?id_group="+id_group+"&id_user="+Data.getId_user();
+        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
 
         StringRequest request2=new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>(){
@@ -169,13 +218,12 @@ public class Fragment_add_member extends Fragment {
                             for(int j=0; j<json_users.length(); j++){
                                 JSONObject users_object=json_users.getJSONObject(j);
 
-                                if(users_object.getInt("id_user")==Data.getId_user()){
-                                    select_especific_user(users_object.getInt("id_companion"));
-                                }else{
-                                    if(users_object.getInt("id_companion")==Data.getId_user()){
-                                        select_especific_user(users_object.getInt("id_user"));
-                                    }
-                                }
+                                String id=users_object.getString("id_user");
+                                String name=users_object.getString("name_user");
+                                String account=users_object.getString("account");
+                                String email=users_object.getString("email");
+                                String user=id+"-"+name+"-"+account+"-"+email;
+                                user_list2.add(user);
                             }
 
                             Log.e("dif",""+user_list2);
@@ -183,41 +231,6 @@ public class Fragment_add_member extends Fragment {
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                             list_add_members.setAdapter(adapter);
-                        }catch(JSONException e){
-                            message.message("Error", "datos "+e, getContext());
-                        }
-                    }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                message.message("Error", "datos erroneos "+error, getContext());
-            }
-        });
-
-        queue.add(request2);
-    }
-
-    private void select_especific_user(int id){
-        String url=Rest_api.url_mysql+Rest_api.select_specific_user+"?id_user="+id;
-        RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
-
-        StringRequest request2=new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        try{
-                            JSONArray json_users=new JSONArray(response);
-
-                            if(json_users.length()>0){
-                                JSONObject users_object=json_users.getJSONObject(0);
-
-                                String id=users_object.getString("id_user");
-                                String name=users_object.getString("name_user");
-                                String account=users_object.getString("account");
-                                String email=users_object.getString("email");
-                                String user=id+"-"+name+"-"+account+"-"+email;
-                                select_insert_group(id, user);
-                            }
 
                         }catch(JSONException e){
                             message.message("Error", "datos "+e, getContext());
@@ -233,34 +246,39 @@ public class Fragment_add_member extends Fragment {
         queue.add(request2);
     }
 
-    private void select_insert_group(String id, String user){
-        String url=Rest_api.url_mysql+Rest_api.select_insert_group+"?id_user="+id+"&id_group="+id_group;
+    public void insert_member(String id_user){
         RequestQueue queue=Volley.newRequestQueue(getContext());//queue=cola
 
-        StringRequest request2=new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>(){
+        String url=Rest_api.url_mysql+Rest_api.insert_member;
+        StringRequest request=new StringRequest(Request.Method.POST, url,//request=peticion
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
-                        try{
-                            JSONArray json_users=new JSONArray(response);
-
-                            if(json_users.length()>0){
-                                Log.e("ya insertado","ya insertado");
-                            }else{
-                                user_list2.add(user);
-                            }
-
-                        }catch(JSONException e){
-                            message.message("Error", "datos "+e, getContext());
-                        }
+                        select_insert_group();
+                        message.message("Alerta", "Se han insertado con exito", getContext());
+                        select_insert_group();
                     }
-                },new Response.ErrorListener() {
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        String errorMessage = "Error: " + error.getMessage();
+                        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+                        Log.e("Volley Error", errorMessage);
+                        message.message("Error", errorMessage, getContext());
+                    }
+                }) {
+            @NonNull
             @Override
-            public void onErrorResponse(VolleyError error) {
-                message.message("Error", "datos erroneos "+error, getContext());
-            }
-        });
+            public Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parameters=new HashMap<String,String>();//parameters=parametros
+                parameters.put("id_user", id_user);
+                parameters.put("id_group", id_group);
 
-        queue.add(request2);
+                return parameters;
+            }
+        };
+
+        queue.add(request);
     }
 }

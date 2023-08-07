@@ -6,74 +6,102 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_main" >
 
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="68dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7"
-        app:srcCompat="@drawable/record_audio_symbol" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/imageView8"
-        app:layout_constraintHorizontal_bias="0.747"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/symbol_take_photo" />
-
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginEnd="60dp"
-        android:layout_weight="1"
+        android:text="Grupo #5"
+        android:textSize="46sp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/symbol_record_video" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView10"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toEndOf="@+id/imageView9"
-        app:layout_constraintTop_toBottomOf="@+id/imageView8"
-        app:srcCompat="@drawable/symbol_other_files" />
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/white"
-        android:background="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <ScrollView
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="1 - Ramón Matute -202110130007 (Lider)"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.244"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="MissingConstraints" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="3 - Ashly Alvarado - 202110030089"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        tools:ignore="MissingConstraints" />
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-    </ScrollView>
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="4 - Henry Alvarado - 202010110372"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="5 - Fabricio Moreno - 202110110084"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="2 - Augusto Manzanarez - 201810010495"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        tools:ignore="MissingConstraints" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,4 +31,5 @@ public class Rest_api {
     public static final String delete_group="delete_group.php";
     public static final String select_insert_group="select_insert_group.php";
     public static final String select_email="select_email.php";
+    public static final String select_count_companions="select_count_companions.php";
 }

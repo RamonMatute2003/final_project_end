@@ -115,7 +115,8 @@ public class Activity_sign_in extends AppCompatActivity {
                                 Data.setId_user(user_object.getInt("id_user"));
                                 Data.setPhoto(user_object.getString("photo"));
 
-                                if(!Activity_welcome.token.equals(user_object.getString("token"))){
+                                String userToken = user_object.getString("token");
+                                if (Activity_welcome.token != null && userToken != null && !Activity_welcome.token.equals(userToken)) {
                                     update_token(user_object.getString("id_user"));
                                 }
 

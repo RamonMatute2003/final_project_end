@@ -39,10 +39,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,7 +123,8 @@ public class Fragment_group_settings extends Fragment {
             id_group=args.getString("data");
         }
 
-        load_data();
+        load_data(0);
+
 
         list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -187,9 +191,7 @@ public class Fragment_group_settings extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence text, int start, int before, int count) {
-                if (adapter != null) {
-                    adapter.getFilter().filter(text);
-                }
+                search_text();
             }
 
             @Override
@@ -199,6 +201,48 @@ public class Fragment_group_settings extends Fragment {
         });
 
         return root;
+    }
+
+    private void search_text(){
+        List<String> list_copy=new ArrayList<>();
+
+        for(int j=0; j<user_list2.toArray().length; j++){
+            boolean search=false;
+            String cadenaCompleta = user_list2.get(j);
+            String parteBuscada = txt_search_group.getText().toString();
+
+            Pattern pattern = Pattern.compile(parteBuscada);
+            Matcher matcher = pattern.matcher(cadenaCompleta);
+
+            while(matcher.find()){
+                search=true;
+                break;
+            }
+
+            if(search){
+                list_copy.add(cadenaCompleta);
+            }
+        }
+
+        if(list_copy!=null){
+            if(list_copy.toArray().length>0){
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list_copy);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_view.setAdapter(adapter);
+            }else{
+                List<String> list = new ArrayList<>();
+                adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, list);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                list_view.setAdapter(adapter);
+            }
+        }else{
+            adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            list_view.setAdapter(adapter);
+        }
     }
 
     private void show_message1(){
@@ -263,6 +307,7 @@ public class Fragment_group_settings extends Fragment {
                 for(int j=0; j<selected_items.toArray().length ;j++){
                     delete_members(selected_items.get(j));
                 }
+                load_data(23);
             }
         });
         builder.setNegativeButton("Salir", new DialogInterface.OnClickListener() {
@@ -305,8 +350,10 @@ public class Fragment_group_settings extends Fragment {
         queue.add(request2);
     }
 
-    private void load_data(){
-        load_amphitryon();
+    private void load_data(int index){
+        if(index==0){
+            load_amphitryon();
+        }
 
         String url= Rest_api.url_mysql+Rest_api.select_members+"?id_user="+Data.getId_user()+"&id_group="+id_group;
         RequestQueue queue= Volley.newRequestQueue(getContext());//queue=cola
