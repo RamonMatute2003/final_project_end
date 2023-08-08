@@ -310,8 +310,10 @@ public class Fragment_view_group extends Fragment {
 
     private void showMenu(int position, List<Messages_groups> list_message){
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        Context context = getContext();
+
         builder.setTitle("Elija una opción");
-        builder.setItems(new CharSequence[]{"Descargar archivo", "Eliminar mensaje", "Cancelar"},
+        builder.setItems(new CharSequence[]{"Descargar archivo", "Eliminar mensaje", "Abrir con otra aplicacion","Cancelar"},
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -340,6 +342,17 @@ public class Fragment_view_group extends Fragment {
 
                                 break;
                             case 2:
+                                String file = list_message.get(position).getImage_file();
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(file));
+
+                                if(intent.resolveActivity(context.getPackageManager()) != null) {
+                                    startActivity(intent);
+                                }else{
+                                    message.message("Aviso", "No encontramos una aplicacion para abrir", context);
+                                }
+
+                                break;
+                            case 3:
                                 dialog.dismiss();
                                 break;
                         }

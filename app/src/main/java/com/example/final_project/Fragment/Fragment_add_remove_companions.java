@@ -125,8 +125,9 @@ public class Fragment_add_remove_companions extends Fragment {
         sp_options.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                user_list2 = new ArrayList<>();
                 if(position==0){
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, Collections.singletonList(""));
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                     list_view_users.setAdapter(adapter);
@@ -235,7 +236,6 @@ public class Fragment_add_remove_companions extends Fragment {
                     public void onResponse(String response){
                         try{
                             JSONArray json_users=new JSONArray(response);
-                            user_list2 = new ArrayList<>();
 
                             for(int j=0; j<json_users.length(); j++){
                                 JSONObject users_object=json_users.getJSONObject(j);
