@@ -4,13 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,7 +24,6 @@ import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -157,7 +153,6 @@ public class Activity_main extends AppCompatActivity {
 
                             if(jsonArray.length()>0){
                                 JSONObject user_object=jsonArray.getJSONObject(0);//user_object=objeto usuario
-
                                 Data.setId_user(Integer.parseInt(user_object.getString("id_user")));
                             }
 

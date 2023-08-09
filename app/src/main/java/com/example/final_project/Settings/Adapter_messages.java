@@ -2,17 +2,13 @@ package com.example.final_project.Settings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
 import com.example.final_project.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +69,8 @@ public class Adapter_messages extends RecyclerView.Adapter<Holder_messages>{
         holder.getTxt_weight().setText(list_message.get(position).getWeight());
         holder.getTxt_extension().setText(list_message.get(position).getExtension());
         Glide.with(context).load(list_message.get(position).getImage_user()).into(holder.getImage_user());
-        Glide.with(context).load("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Message_files%2Ffile.png?alt=media&token=fbad2126-e500-4576-bfce-372efce40636").into(holder.getImg_image_file());
+        Glide.with(context).load("https://firebasestorage.googleapis.com/v0/b/final-project-d3437.appspot.com/o/Message_files%2Ffile.png?alt=media&token=fbad2126-e500-4576-bfce-372efce40636")
+                .into(holder.getImg_image_file());
 
         holder.getImgbtn_options().setOnClickListener(new View.OnClickListener() {
             @Override

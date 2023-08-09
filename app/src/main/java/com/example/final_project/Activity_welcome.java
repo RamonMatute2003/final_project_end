@@ -1,24 +1,12 @@
 package com.example.final_project;
 
 import static android.content.ContentValues.TAG;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
-
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,19 +14,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.final_project.Settings.Message;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
 
 public class Activity_welcome extends AppCompatActivity {
 
     private Button btn_sign_in, btn_sign_up;//btn_sign_in=iniciar sesion, btn_sign_up=registrarse
-    public static String token;
-    Message message=new Message();
-    private boolean hasNotificationPermissionGranted = false;
+    public static String token;//Device ID o token de firebase messagin
+    Message message=new Message();//clase message de settings para mensajes de alert builder
+    private boolean hasNotificationPermissionGranted = false;//variable para permiso de notificaciones
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

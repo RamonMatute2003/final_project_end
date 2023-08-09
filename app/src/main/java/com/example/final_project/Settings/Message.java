@@ -2,7 +2,6 @@ package com.example.final_project.Settings;
 
 import android.content.Context;
 import android.content.DialogInterface;
-
 import androidx.appcompat.app.AlertDialog;
 
 public class Message{

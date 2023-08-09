@@ -3,7 +3,6 @@ package com.example.final_project.Settings;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Urderlined extends AppCompatActivity {

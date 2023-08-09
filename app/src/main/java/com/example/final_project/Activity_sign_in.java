@@ -2,7 +2,6 @@ package com.example.final_project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,17 +22,14 @@ import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
 import com.example.final_project.Settings.Urderlined;
 import com.example.final_project.Settings.Validation_field;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class Activity_sign_in extends AppCompatActivity {
-
     private EditText txt_account_number, txt_password;//txt_account_number=numero de cuenta, password=contraseña
     private Button btn_sign_in, btn_sign_up;//btn_sign_up=registrarse, btn_sign_in=iniciar sesion
     Message message=new Message();
