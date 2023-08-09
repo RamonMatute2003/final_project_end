@@ -24,7 +24,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
 
     private void showNotification(String title, String message) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String NOTIFICATION_CHANNEL_ID = "com.example.final_project";
+        String NOTIFICATION_CHANNEL_ID = "com.ui_transfer_file.final_project";
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
