@@ -110,7 +110,7 @@ public class Activity_main extends AppCompatActivity {
 
     private void show_message(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("¿Seguro que deseas cerrar cesion??");
+        builder.setTitle("¿Seguro que deseas cerrar sesion?");
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
