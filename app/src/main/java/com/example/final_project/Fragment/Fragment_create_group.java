@@ -28,6 +28,8 @@ import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
+import com.example.final_project.Settings.Validation_field;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -148,7 +150,16 @@ public class Fragment_create_group extends Fragment {
 
         btn_create_group.setOnClickListener(v -> {
             if(selected_items.toArray().length>0){
-                insert_group();
+                if(!txt_name_group.getText().toString().isEmpty()){
+                    if(Validation_field.isValidNameText(txt_name_group.getText().toString())){
+                        insert_group();
+                    }else{
+                        message.message("Alerta", "Caracteres invalidos en nombre de grupo", getContext());
+                    }
+
+                }else{
+                    message.message("Alerta", "No dejar vacio el nombre del grupo", getContext());
+                }
             }else{
                 message.message("Alerta", "Selecciona al menos un integrante", getContext());
             }

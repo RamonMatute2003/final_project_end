@@ -49,7 +49,7 @@ public class Activity_welcome extends AppCompatActivity {
                         if(!task.isSuccessful()){
                             Log.w(TAG, "Error al obtener el token de registro de FCM", task.getException());
                             Toast.makeText(getApplicationContext(), "Error token", Toast.LENGTH_SHORT).show();
-                            message.message("Error", "Error al obtener token", getApplicationContext());
+                            message.message("Error", "Error al obtener token", Activity_welcome.this);
                             return;
                         }
 
