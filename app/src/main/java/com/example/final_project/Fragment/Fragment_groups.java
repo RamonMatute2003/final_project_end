@@ -4,7 +4,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,13 +24,10 @@ import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -147,7 +142,6 @@ public class Fragment_groups extends Fragment {
             boolean search=false;
             String cadenaCompleta = group_list2.get(j);
             String parteBuscada = txt_search_group.getText().toString();
-
             Pattern pattern = Pattern.compile(parteBuscada);
             Matcher matcher = pattern.matcher(cadenaCompleta);
 
@@ -182,8 +176,6 @@ public class Fragment_groups extends Fragment {
 
         if(i==1){
             fragmentTransaction.replace(R.id.frameContainer, new Fragment_create_group());
-        }else{
-
         }
 
         fragmentTransaction.addToBackStack(null);
@@ -243,15 +235,12 @@ public class Fragment_groups extends Fragment {
 
                             for(int j=0; j<json_users.length(); j++){
                                 JSONObject users_object=json_users.getJSONObject(j);
-
                                 String id=users_object.getString("id_group");
                                 String name=users_object.getString("group_name");
                                 String group=id+"-"+name;
                                 group_list2.add(group);
                             }
-
                             select_groups();
-
                         }catch(JSONException e){
                             message.message("Error", "datos "+e, getContext());
                         }

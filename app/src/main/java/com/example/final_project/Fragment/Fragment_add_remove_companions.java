@@ -1,20 +1,8 @@
 package com.example.final_project.Fragment;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-
-import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,11 +12,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,17 +25,9 @@ import com.example.final_project.R;
 import com.example.final_project.Settings.Data;
 import com.example.final_project.Settings.Message;
 import com.example.final_project.Settings.Rest_api;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -353,14 +330,14 @@ public class Fragment_add_remove_companions extends Fragment {
                                     JSONObject users_object=json_users.getJSONObject(i);
                                     JSONObject json2_object=jsonArray.getJSONObject(j);
 
-                                    if(json2_object.getInt("id_user")==users_object.getInt("id_user") || json2_object.getInt("id_companion")==users_object.getInt("id_user")){
+                                    if(json2_object.getInt("id_user")==users_object.getInt("id_user") ||
+                                            json2_object.getInt("id_companion")==users_object.getInt("id_user")){
                                         json_users.remove(i);
                                     }
                                 }
                             }
 
                             for(int j=0; j<json_users.length(); j++){
-
                                 JSONObject users_object=json_users.getJSONObject(j);
 
                                 String id=users_object.getString("id_user");
@@ -373,7 +350,6 @@ public class Fragment_add_remove_companions extends Fragment {
 
                             adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, user_list2);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
                             list_view_users.setAdapter(adapter);
                         }catch(JSONException e){
                             message.message("Error", "datos "+e, getContext());

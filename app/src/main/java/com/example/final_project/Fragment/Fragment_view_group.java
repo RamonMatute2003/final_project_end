@@ -1,9 +1,7 @@
 package com.example.final_project.Fragment;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
-import android.app.Notification;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -27,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -38,7 +35,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -48,8 +44,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.final_project.Activity_sign_in;
-import com.example.final_project.Activity_welcome;
 import com.example.final_project.R;
 import com.example.final_project.Settings.Adapter_messages;
 import com.example.final_project.Settings.Data;
@@ -59,22 +53,17 @@ import com.example.final_project.Settings.Messages_groups;
 import com.example.final_project.Settings.Rest_api;
 import com.example.final_project.Settings.UriToFileConverter;
 import com.example.final_project.Settings.Validation_field;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -134,15 +123,12 @@ public class Fragment_view_group extends Fragment {
         }
     }
 
-    TextView btn_exit, txt_name_group_conf, btn_add_members;
+    TextView btn_exit, txt_name_group_conf, btn_add_members, txt_name_view;
     ImageButton btn_take_photo, take_video, btn_other_files, imgbtn_send, btn_cancel;
     EditText txt_name_file2;
-    ImageView image_group;
+    ImageView image_group, image_view_photo, image_send;
     private Adapter_messages adapter_messages;
-    private ImageView image_view_photo, image_send;
-    private TextView txt_name_view;
     private RecyclerView recyclerView;
-    ScrollView scrollView;
     private FirebaseDatabase database;
     private DatabaseReference database_reference;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -151,9 +137,8 @@ public class Fragment_view_group extends Fragment {
     static final int REQUEST_VIDEO_CAPTURE=3;
     private static final int REQUEST_CODE_PICK_DOCUMENT = 4;
     Message message=new Message();
-    String url, id_amphi;
+    String url, id_amphi, id_group;
     VideoView videoView;
-    String id_group;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -210,7 +195,6 @@ public class Fragment_view_group extends Fragment {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
             }
 
             @Override
@@ -568,7 +552,6 @@ public class Fragment_view_group extends Fragment {
                 }
             }
         }
-
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -8,14 +8,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -31,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,7 +39,6 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.final_project.Activity_main;
-import com.example.final_project.Activity_sign_up;
 import com.example.final_project.Activity_verification;
 import com.example.final_project.Models.Firebase;
 import com.example.final_project.R;
@@ -53,14 +49,11 @@ import com.example.final_project.Settings.Validation_field;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -168,7 +161,8 @@ public class Fragment_settings_profile extends Fragment {
         btn_save_changes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                if(txt_name1.getText().toString().isEmpty() || txt_email2.getText().toString().isEmpty() || txt_phone1.getText().toString().isEmpty() || txt_dni1.getText().toString().isEmpty() || birthdate1.getText().toString().isEmpty()){
+                if(txt_name1.getText().toString().isEmpty() || txt_email2.getText().toString().isEmpty() || txt_phone1.getText().toString().isEmpty()
+                        || txt_dni1.getText().toString().isEmpty() || birthdate1.getText().toString().isEmpty()){
                     message.message("Alerta", "No dejar campos vacios",getContext());
                 }else{
                     if(Validation_field.isValidName(txt_name1.getText().toString())){
@@ -598,5 +592,4 @@ public class Fragment_settings_profile extends Fragment {
         AlertDialog dialog2 = builder2.create();
         dialog2.show();
     }
-
 }
