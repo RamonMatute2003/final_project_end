@@ -42,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService{
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.download)
+                .setSmallIcon(R.drawable.icononotificacion)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setContentInfo("Info");

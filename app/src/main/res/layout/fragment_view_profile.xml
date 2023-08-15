@@ -110,7 +110,9 @@
                 android:layout_marginRight="32dp"
                 android:text="Amigos: 0"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"
+                tools:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_action"

@@ -7,7 +7,7 @@ public class Validation_field{
     private static final String EMAIL_PATTERN="^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
     private static final String PHONE_PATTERN = "^[0-9]{8,}$";
     private static final String NAME_TEXT_PATTERN = "^[a-zA-Z0-9#\\$%&+,\\-/:=@_{}\\s]+$";
-    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=_])(?=\\S+$).{8,}$";
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$%^+=_])(?=\\S+$).{8,}$";
     private static final String NAME_PATTERN = "^[\\p{L}]+(\\s[\\p{L}]+)*$";
     private static final String DNI_PATTERN = "^[0-9]{13}$";
 
